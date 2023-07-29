@@ -9,7 +9,7 @@ export function Header({ children }: HeaderProps) {
     <>
       <div
         className={clsx(
-          "bg-primary flex w-full h-40 rounded-bl-[30%] relative items-center justify-center shadow-md drop-shadow-md px-10"
+          "bg-primary flex w-full h-48 rounded-bl-[30%] relative items-center justify-center shadow-md drop-shadow-md px-10 z-10"
         )}
       >
         {children}
