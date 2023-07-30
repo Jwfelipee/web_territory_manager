@@ -27,7 +27,7 @@ export const Input: React.FC<IInput> = ({
           {rest.required ? <span className="text-red-500"> *</span> : ""}
         </label>
       )}
-      <div className="flex relative">
+      <div className="flex relative text-xs">
         <input
           className={`
 						border border-slate-400 px-2 py-1 rounded-md w-full transition-all ease-in-out duration-300 hover:border-blue-600 focus:border-blue-600 focus:outline-none

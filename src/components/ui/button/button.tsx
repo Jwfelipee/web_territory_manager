@@ -9,6 +9,8 @@ const variants = {
   inverse: "bg-white text-primary",
   danger: "bg-red-600 text-white",
   success: "bg-green-600 text-white",
+  dark: "bg-gray-800 text-white",
+  ghost: "bg-transparent text-gray-700",
 };
 
 const sizes = {
