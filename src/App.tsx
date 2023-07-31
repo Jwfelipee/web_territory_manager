@@ -1,13 +1,15 @@
-import { AppProvider } from './providers/app'
-import { AppRoutes } from './routes'
+import { AppProvider } from "./providers/app";
+import { AppRoutes } from "./routes";
+import { RecoilRoot } from "recoil";
 
 function App() {
-
   return (
     <AppProvider>
-      <AppRoutes />
+      <RecoilRoot>
+        <AppRoutes />
+      </RecoilRoot>
     </AppProvider>
-  )
+  );
 }
 
-export default App
+export default App;

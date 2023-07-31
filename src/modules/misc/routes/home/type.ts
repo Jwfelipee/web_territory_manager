@@ -16,9 +16,9 @@ export type ISetSearch = React.Dispatch<React.SetStateAction<{
 }>>
 
 export type ITerritoryCard = {
-   id: string
+   id: number
    name: string
-   percentageCompleted: number
+   // percentageCompleted: number
    rounds: boolean
    signatureId: number | null
    overseer: string
@@ -26,7 +26,8 @@ export type ITerritoryCard = {
 }
 
 export type IActions = {
-   changeRound: (id: string) => Promise<void>
-   share: (territoryId: string) => Promise<void>
-   updateData: (event: React.ChangeEvent<HTMLInputElement>, territoryId: string) => void
+   changeRound: (id: number) => Promise<void>
+   share: (territoryId: number) => Promise<void>
+   updateData: (event: React.ChangeEvent<HTMLInputElement>, territoryId: number) => void
+   revoke: (territoryId: number) => Promise<void>
 }

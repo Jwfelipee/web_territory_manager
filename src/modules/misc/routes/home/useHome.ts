@@ -1,45 +1,96 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/require-await */
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { IUseHome, ISearch, ITerritoryCard } from "./type"
 import { TerritoryGateway } from "@/infra/Gateway/TerritoryGateway"
+import { tokenToSend } from "@/utils/token"
 
 export const useHome = (): IUseHome => {
+
    const [search, setSearch] = useState<ISearch>({
       show: false,
       term: "",
    })
    const [territoryCards, setTerritoryCards] = useState<ITerritoryCard[]>([])
 
-   const getTerritoryCards = async (): Promise<void> => {
-      const { status, data } = await TerritoryGateway.in('memory').get()
+   useEffect(() => {
+      console.clear()
+      void getTerritoryCards()
+   }, [])
+
+   async function getTerritoryCards(): Promise<void> {
+      const { status, data } = await TerritoryGateway.in().get()
       if (status > 299) {
          alert('Erro ao buscar os territórios')
          return
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      setTerritoryCards(data)
+      console.log(data.data)
+      setTerritoryCards(data.data)
    }
 
-   const changeRound = async (id: string): Promise<void> => {
-      setTerritoryCards(old => old.map(territory => {
-         if (territory.id === id) {
-            territory.rounds = !territory.rounds
-         }
-         return territory
-      }))
+   const changeRound = async (id: number): Promise<void> => {
+      const territory = territoryCards.find(territory => territory.id === id)
+      if (!territory) {
+         alert('Território não encontrado')
+         return
+      }
+      if (territory.rounds) {
+         void await finishRound(id)
+      } else {
+         void await startRound(id)
+      }
+
+      void getTerritoryCards()
    }
 
-   const share = async (territoryId: string): Promise<void> => {
+   const finishRound = async (id: number): Promise<void> => {
+      const { status } = await TerritoryGateway.in().finishRound(id)
+      if (status > 299) {
+         alert('Erro ao fechar rodada do território')
+         return
+      }
+   }
+
+   const startRound = async (id: number): Promise<void> => {
+      const { status } = await TerritoryGateway.in().startRound(id)
+      if (status > 299) {
+         alert('Erro ao abrir rodada do território')
+         return
+      }
+   }
+
+   const share = async (territoryId: number): Promise<void> => {
       const territory = territoryCards.find(territory => territory.id === territoryId)
       if (!territory) {
          alert('Território não encontrado')
          return
       }
-      alert(`${territoryId} compartilhado com ${territory.overseer} até ${territory.expirationTime}`)
+      const input = {
+         overseer: territory.overseer,
+         expirationTime: territory.expirationTime
+      }
+      const { data, status } = await TerritoryGateway.in().signInTerritory(territoryId, input)
+      if (status > 299) {
+         alert('Erro ao compartilhar o território')
+         return
+      }
+      const { token } = data
+      const origin = window.location.origin
+      alert(token)
+      const tokenEncoded = tokenToSend(token)
+      alert(tokenEncoded)
+
+      navigator.canShare({
+         title: `Território para trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()}`,
+         url: `${origin}/territorio/${tokenEncoded}`,
+         text: `Prezado irmão *_${territory.overseer}_*\nsegue o link para o território *${territory.name}* que você irá trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()} \n`
+      })
    }
 
-   const updateData = (event: React.ChangeEvent<HTMLInputElement>, territoryId: string): void => {
+   const updateData = (event: React.ChangeEvent<HTMLInputElement>, territoryId: number): void => {
       const { name, value } = event.target
       const territory = territoryCards.find(territory => territory.id === territoryId)
       if (!territory) {
@@ -55,7 +106,30 @@ export const useHome = (): IUseHome => {
       }))
    }
 
-   void getTerritoryCards()
+   const revoke = async (territoryId: number): Promise<void> => {
+      const territory = territoryCards.find(territory => territory.id === territoryId)
+      if (!territory) {
+         alert('Território não encontrado')
+         return
+      }
+      const { status } = await TerritoryGateway.in().revoke(territoryId)
+      console.log(status)
+      if (status > 299) {
+         alert('Erro ao revogar o território')
+         return
+      }
+
+      void getTerritoryCards()
+
+      setTerritoryCards(old => old.map(territory => {
+         if (territory.id === territoryId) {
+            territory.expirationTime = ''
+            territory.overseer = ''
+         }
+         return territory
+      }))
+   }
+
    return {
       search,
       setSearch,
@@ -63,7 +137,8 @@ export const useHome = (): IUseHome => {
       actions: {
          changeRound,
          share,
-         updateData
+         updateData,
+         revoke
       }
    }
 }

@@ -1,25 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import axios from 'axios'
-import { parseCookies } from 'nookies'
 
 import type HttpClient from './HttpClient'
+import { env } from '@/config/env'
 
-const URL_API = 'https://dev-api-pavanello.tegra.com.br/api'
+const URL_API = 'https://482e3hikj6.execute-api.us-east-1.amazonaws.com/prod'
 // const URL_API = 'http://localhost:8001/api'
 
 export default class AxiosAdapter implements HttpClient {
   constructor() {
     axios.interceptors.request.use((config: any) => {
-      const { '@eicontador/token': token } = parseCookies()
-      const { '@eicontador/accountid': account } = parseCookies()
+      const token = localStorage.getItem(env.storage.token)
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`
-      }
-      if (account) {
-        config.headers['x-account-id'] = account
-        config.headers['accountId'] = account
-        config.headers['account'] = account
       }
       return config
     })

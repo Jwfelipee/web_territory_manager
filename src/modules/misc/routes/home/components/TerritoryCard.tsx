@@ -33,8 +33,8 @@ export function TerritoryCard({
           {territoryCard.rounds ? <Pause size={16} /> : <Play size={16} />}
         </Button>
       </div>
-      <div className="h-4/5 w-full flex gap-[8.33%]">
-        <div className="w-6/12 flex items-start justify-center">
+      <div className="h-4/5 w-full flex gap-[16.66%]">
+        <div className="w-5/12 flex items-start justify-center">
           <div className="h-2/3 w-full bg-gray-300 text-white">Grafico</div>
         </div>
         <div className="w-5/12 flex-col flex justify-between">
@@ -56,11 +56,18 @@ export function TerritoryCard({
             label=""
             placeholder="Prazo"
             type="date"
-            value={territoryCard.expirationTime}
+            value={
+              territoryCard.expirationTime?.includes("T")
+                ? territoryCard.expirationTime.split("T")[0]
+                : territoryCard.expirationTime
+            }
             onChange={(e) => actions.updateData(e, territoryCard.id)}
           />
           {territoryCard.signatureId ? (
-            <Button className="text-xs !px-0 !justify-start">
+            <Button
+              onClick={() => actions.revoke(territoryCard.id)}
+              className="text-xs !px-0 !justify-start"
+            >
               Revogar acesso
             </Button>
           ) : (

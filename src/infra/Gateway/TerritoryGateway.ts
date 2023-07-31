@@ -8,11 +8,31 @@ class TerritoryGatewayHttp {
   constructor(private readonly http: HttpClient) { }
 
   get(): Promise<ResponseHttp> {
-    return this.http.get('/territory')
+    return this.http.get('territories')
   }
 
   update(data: any): Promise<ResponseHttp> {
-    return this.http.put(`/territory/`, data)
+    return this.http.put(`territories/`, data)
+  }
+
+  revoke(id: number): Promise<ResponseHttp> {
+    return this.http.delete(`territories/${id}/signature`)
+  }
+
+  finishRound(id: number): Promise<ResponseHttp> {
+    return this.http.post(`territories/${id}/round/finish`)
+  }
+
+  startRound(id: number): Promise<ResponseHttp> {
+    return this.http.post(`territories/${id}/round/generate`)
+  }
+
+  signInTerritory(id: number, data: { overseer: string; expirationTime: string }): Promise<ResponseHttp> {
+    return this.http.post(`territories/${id}/signature`, data)
+  }
+
+  getBySignature(): Promise<ResponseHttp> {
+    return this.http.get('territories/signature')
   }
 }
 

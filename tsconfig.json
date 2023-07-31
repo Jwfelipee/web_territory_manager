@@ -17,6 +17,8 @@
     "jsx": "react-jsx",
     "typeRoots": ["node_modules/@types", "types/"],
     "baseUrl": "./src",
+    "noImplicitReturns": false,
+    "noImplicitAny": false,
     "paths": {
       "@/*": ["*"]
     }
