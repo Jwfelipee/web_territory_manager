@@ -84,7 +84,7 @@ export function TerritoryCard({
                   },
                   "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl"
                 )}
-                onClick={() => actions.share(territoryCard.id)}
+                onClick={(e) => actions.share(territoryCard.id, e)}
               >
                 <Share2 />
               </Button>

@@ -62,7 +62,9 @@ export const useHome = (): IUseHome => {
       }
    }
 
-   const share = async (territoryId: number): Promise<void> => {
+   const share = async (territoryId: number, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
+      e.preventDefault()
+      e.stopPropagation()
       const territory = territoryCards.find(territory => territory.id === territoryId)
       if (!territory) {
          alert('Território não encontrado')
@@ -79,15 +81,27 @@ export const useHome = (): IUseHome => {
       }
       const { token } = data
       const origin = window.location.origin
-      alert(token)
       const tokenEncoded = tokenToSend(token)
-      alert(tokenEncoded)
 
-      navigator.canShare({
-         title: `Território para trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()}`,
-         url: `${origin}/territorio/${tokenEncoded}`,
-         text: `Prezado irmão *_${territory.overseer}_*\nsegue o link para o território *${territory.name}* que você irá trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()} \n`
-      })
+      try {
+         const can = navigator.canShare({
+            title: `Território para trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()}`,
+            url: `${origin}/territorio/${tokenEncoded}`,
+            text: `Prezado irmão *_${territory.overseer}_*\nsegue o link para o território *${territory.name}* que você irá trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()} \n`
+         })
+         if (!can) {
+            alert('Não eh possível compartilhar o território')
+            return
+         }
+         await navigator.share({
+            title: `Território para trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()}`,
+            url: `${origin}/territorio/${tokenEncoded}`,
+            text: `Prezado irmão *_${territory.overseer}_*\nsegue o link para o território *${territory.name}* que você irá trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()} \n`
+         })
+      } catch (error) {
+         alert('Não foi possível compartilhar o território')
+         return
+      }
    }
 
    const updateData = (event: React.ChangeEvent<HTMLInputElement>, territoryId: number): void => {

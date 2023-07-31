@@ -27,7 +27,7 @@ export type ITerritoryCard = {
 
 export type IActions = {
    changeRound: (id: number) => Promise<void>
-   share: (territoryId: number) => Promise<void>
+   share: (territoryId: number, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
    updateData: (event: React.ChangeEvent<HTMLInputElement>, territoryId: number) => void
    revoke: (territoryId: number) => Promise<void>
 }
