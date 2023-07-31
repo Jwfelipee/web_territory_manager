@@ -69,7 +69,7 @@ export default class AxiosAdapter implements HttpClient {
       const config = {
         ...httpConfig,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       }
       const response = await axios(`${URL_API}/${url}`, config)

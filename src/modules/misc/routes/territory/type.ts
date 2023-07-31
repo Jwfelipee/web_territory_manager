@@ -17,6 +17,7 @@ export type ISetSearch = React.Dispatch<React.SetStateAction<{
 
 
 export type IActions = {
+   share: (blockId: number) => Promise<void>
 }
 
 

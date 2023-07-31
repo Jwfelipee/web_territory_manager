@@ -31,7 +31,7 @@ export function BlockCard({ index, actions, block }: BlockCardProps) {
           className={clsx(
             "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl absolute right-0 -top-1"
           )}
-          // onClick={() => actions.share(territoryCard.id)}
+          onClick={() => actions.share(block.id)}
         >
           <Share2 />
         </Button>

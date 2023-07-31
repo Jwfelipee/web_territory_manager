@@ -9,6 +9,6 @@ export const tokenToSend = (token: string) => {
 }
 
 export const tokenToReceive = (token: string) => {
-   const tokenDecoded = token.replace(DOT, '.').replace(SLASH, '/').replace(QUESTION_MARK, '?').replace(HYPHEN, '-')
+   const tokenDecoded = token.replace(/_dot_/g, '.').replace(/_slash_/g, '/').replace(/_question_mark_/g, '?').replace(/_hyphen_/g, '-')
    return tokenDecoded
 }
