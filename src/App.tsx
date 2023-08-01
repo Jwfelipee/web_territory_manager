@@ -2,7 +2,7 @@ import { AppProvider } from "./providers/app";
 import { AppRoutes } from "./routes";
 import { RecoilRoot, useRecoilValue } from "recoil";
 import { loadState } from "./states/load";
-import { BookLoader, ScienceLoader } from "./components/ui";
+import { BookLoader, ScienceLoader, SpiralLoader } from "./components/ui";
 import clsx from "clsx";
 
 function App() {
@@ -44,6 +44,7 @@ const AppWithLoader = () => {
 const loaders = {
   science: ScienceLoader,
   book: BookLoader,
+  spiral: SpiralLoader,
 };
 
 const Overlay = () => {

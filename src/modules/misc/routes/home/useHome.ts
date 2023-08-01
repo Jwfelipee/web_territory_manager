@@ -24,7 +24,7 @@ export const useHome = (): IUseHome => {
    }, [])
 
    async function getTerritoryCards(): Promise<void> {
-      _setLoadState({ loader: 'book', message: 'Carregando territórios' })
+      _setLoadState({ loader: 'spiral', message: 'Carregando territórios' })
       const { status, data } = await TerritoryGateway.in().get()
       if (status > 299) {
          alert('Erro ao buscar os territórios')

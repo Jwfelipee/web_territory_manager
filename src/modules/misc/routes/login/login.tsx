@@ -41,7 +41,7 @@ export default function Login() {
       });
       return;
     }
-    _setLoadState({ loader: "science", message: "Realizando login" });
+    _setLoadState({ loader: "spiral", message: "Realizando login" });
 
     const { status, data } = await authGateway.login(loginData);
     if (status > 299) {
