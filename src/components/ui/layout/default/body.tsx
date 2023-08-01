@@ -1,13 +1,16 @@
 import clsx from "clsx";
 
-interface BodyProps {
-  children: React.ReactNode;
-}
-
-export function Body({ children }: BodyProps) {
+export function Body({
+  children,
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <>
-      <div className={clsx("h-[calc(100vh-192px)] p-2 flex flex-col")}>
+      <div
+        className={clsx("h-[calc(100vh-192px)] flex flex-col", className)}
+        {...rest}
+      >
         {children}
       </div>
     </>

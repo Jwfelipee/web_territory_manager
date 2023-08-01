@@ -1,5 +1,5 @@
 import { DefaultLayout } from "@/components/ui";
-import { Home, Login, Territory } from "@/modules/misc";
+import { Block, Home, Login, StreetData, Territory } from "@/modules/misc";
 import { useRoutes, RouteObject } from "react-router-dom";
 
 export const AppRoutes = () => {
@@ -21,6 +21,14 @@ export const AppRoutes = () => {
       path: "/territorio/:accessToken",
       element: <DefaultLayout haveParams />,
       children: [{ path: "", element: <Territory /> }],
+    },
+    {
+      path: "/quadra/:accessToken",
+      element: <DefaultLayout haveParams />,
+      children: [
+        { path: "", element: <Block /> },
+        { path: "rua", element: <StreetData /> },
+      ],
     },
   ];
   const element = useRoutes([...commonRoutes]);

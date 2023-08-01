@@ -47,7 +47,7 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-white relative text-gray-700">
+    <div className="min-h-screen w-screen bg-slate-50 relative text-gray-700">
       <div
         className={clsx(
           "absolute top-2 right-2 bg-gray-400 flex items-center justify-center rounded-full p-2"
