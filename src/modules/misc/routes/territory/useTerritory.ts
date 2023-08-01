@@ -29,6 +29,22 @@ export const useTerritory = (): IUseTerritory => {
       const { status, data } = await TerritoryGateway.in().getBySignature()
       if (status > 299) {
          alert('Erro ao buscar os territórios')
+         setTerritory({
+            id: 1,
+            name: 'Território Fake',
+            overseer: 'Fake',
+            expirationTime: new Date().toISOString(),
+            signatureId: 1,
+            blocks: [
+               {
+                  expirationTime: new Date().toISOString(),
+                  id: 1,
+                  name: 'Quadra 1',
+                  signatureId: 1,
+                  territoryId: 1
+               }
+            ]
+         })
          return
       }
       setTerritory(data?.data)
