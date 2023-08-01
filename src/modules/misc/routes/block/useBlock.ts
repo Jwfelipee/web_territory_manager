@@ -32,7 +32,7 @@ export const useBlock = (): IUseBlock => {
       const exist = block.streets.find((street) => street.id === streetId)
       if (!exist) {
          alert("Rua não encontrada")
-         return
+         return Promise.resolve()
       }
       const query = `?s=${streetId}&b=${block.id}`
       navigate(`rua${query}`)
