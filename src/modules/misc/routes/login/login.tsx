@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/Input";
 import { env } from "@/config/env";
 import { authGateway } from "@/infra/Gateway/AuthGateway";
 import { authState } from "@/states/auth";
+import { loadState } from "@/states/load";
 import { notify } from "@/utils/alert";
 import clsx from "clsx";
 import { useState } from "react";
@@ -22,6 +23,7 @@ export default function Login() {
   });
   const navigator = useNavigate();
   const [_, _setAuthState] = useRecoilState(authState);
+  const [__, _setLoadState] = useRecoilState(loadState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,6 +41,7 @@ export default function Login() {
       });
       return;
     }
+    _setLoadState({ loader: "science", message: "Realizando login" });
 
     const { status, data } = await authGateway.login(loginData);
     if (status > 299) {
@@ -51,6 +54,7 @@ export default function Login() {
     _setAuthState({ token: data.token });
     localStorage.setItem(env.storage.token, data.token);
     navigator("/territorios");
+    _setLoadState({ loader: "none", message: "" });
   };
 
   return (

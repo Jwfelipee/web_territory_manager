@@ -7,9 +7,11 @@ import { IUseHome, ISearch, ITerritoryCard } from "./type"
 import { TerritoryGateway } from "@/infra/Gateway/TerritoryGateway"
 import { tokenToSend } from "@/utils/token"
 import { navigatorShare } from "@/utils/share"
+import { useRecoilState } from "recoil"
+import { loadState } from "@/states/load"
 
 export const useHome = (): IUseHome => {
-
+   const [_, _setLoadState] = useRecoilState(loadState)
    const [search, setSearch] = useState<ISearch>({
       show: false,
       term: "",
@@ -22,6 +24,7 @@ export const useHome = (): IUseHome => {
    }, [])
 
    async function getTerritoryCards(): Promise<void> {
+      _setLoadState({ loader: 'book', message: 'Carregando territórios' })
       const { status, data } = await TerritoryGateway.in().get()
       if (status > 299) {
          alert('Erro ao buscar os territórios')
@@ -30,6 +33,7 @@ export const useHome = (): IUseHome => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       console.log(data.data)
       setTerritoryCards(data.data)
+      _setLoadState({ loader: 'none', message: '' })
    }
 
    const changeRound = async (id: number): Promise<void> => {
