@@ -16,12 +16,12 @@ export function StreetData() {
 
   const widthScreen = window.innerWidth;
   const columnsByWidth = () => {
-    if (widthScreen > 800) return 10;
-    if (widthScreen > 700) return 9;
-    if (widthScreen > 600) return 8;
-    if (widthScreen > 500) return 7;
-    if (widthScreen > 400) return 6;
-    if (widthScreen > 300) return 5;
+    if (widthScreen > 800) return 8;
+    if (widthScreen > 700) return 7;
+    if (widthScreen > 600) return 6;
+    if (widthScreen > 500) return 5;
+    if (widthScreen > 400) return 4;
+    if (widthScreen > 300) return 3;
     return 2;
   };
 
