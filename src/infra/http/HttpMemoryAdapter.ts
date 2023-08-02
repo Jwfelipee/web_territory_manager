@@ -23,6 +23,11 @@ export class HttpMemoryAdapter<T> implements HttpClient {
       return Promise.resolve({ status: 200, data: data });
    }
 
+   async patch(url: string, data: T): Promise<ResponseHttp> {
+      await sleep(500)
+      return Promise.resolve({ status: 200, data: data });
+   }
+
    async postFile(url: string, data: any): Promise<ResponseHttp> {
       await sleep(500)
       return Promise.resolve({ status: 200, data: data });

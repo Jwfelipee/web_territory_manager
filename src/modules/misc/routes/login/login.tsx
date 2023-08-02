@@ -22,7 +22,7 @@ export default function Login() {
     password: "123456",
   });
   const navigator = useNavigate();
-  const [_, _setAuthState] = useRecoilState(authState);
+  const [old, _setAuthState] = useRecoilState(authState);
   const [__, _setLoadState] = useRecoilState(loadState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +51,7 @@ export default function Login() {
       });
       return;
     }
-    _setAuthState({ token: data.token });
+    _setAuthState({ ...old, token: data.token });
     localStorage.setItem(env.storage.token, data.token);
     navigator("/territorios");
     _setLoadState({ loader: "none", message: "" });
