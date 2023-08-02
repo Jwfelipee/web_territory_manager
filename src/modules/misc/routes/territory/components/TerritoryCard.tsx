@@ -12,7 +12,7 @@ interface BlockCardProps {
 
 export function BlockCard({ index, actions, block }: BlockCardProps) {
   const ALL_HOUSES = block.negativeCompleted + block.positiveCompleted;
-  const AVAILABLE_HOUSES = ALL_HOUSES - block.negativeCompleted;
+  const AVAILABLE_HOUSES = block.negativeCompleted;
 
   return (
     <div
