@@ -13,7 +13,7 @@ export default function Home() {
         <div className="h-full w-full flex flex-col gap-4">
           {territoryCards?.map((territoryCard, index) => (
             <TerritoryCard
-              key={territoryCard.id}
+              key={territoryCard.territoryId}
               territoryCard={territoryCard}
               index={index}
               actions={actions}

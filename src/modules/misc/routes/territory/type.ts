@@ -22,19 +22,17 @@ export type IActions = {
 
 
 export type ITerritory = {
-   id: number
-   name: string
-   signatureId: number | null
+   territoryId: number
+   territoryName: string
    overseer: string
-   expirationTime: string
-   // percentageCompleted: number
+   hasRound: boolean
    blocks: IBlock[]
 }
 
 export type IBlock = {
    id: number
    name: string
-   territoryId: number
-   expirationTime: string
-   signatureId: number
+   signature: boolean
+   negativeCompleted: number
+   positiveCompleted: number
 }

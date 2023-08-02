@@ -11,7 +11,7 @@ export function Territory() {
       <HeaderTerritory search={search} />
       <Body>
         <h2 className="w-full flex flex-col items-center h-10 text-4xl text-center pt-4 pb-8">
-          Território {territory.name}
+          {territory.territoryName}
           <hr className="w-3/5" />
         </h2>
         <div className="h-full w-full flex flex-col gap-4">

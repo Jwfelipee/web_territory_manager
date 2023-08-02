@@ -16,13 +16,14 @@ export type ISetSearch = React.Dispatch<React.SetStateAction<{
 }>>
 
 export type ITerritoryCard = {
-   id: number
+   territoryId: number
    name: string
-   // percentageCompleted: number
-   rounds: boolean
-   signatureId: number | null
    overseer: string
+   signature: boolean
+   hasRounds: boolean
    expirationTime: string
+   positiveCompleted: number
+   negativeCompleted: number
 }
 
 export type IActions = {

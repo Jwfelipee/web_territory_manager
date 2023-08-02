@@ -1,40 +1,51 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useEffect, useState } from "react"
 import { IBlock, IUseBlock } from "./type"
 import { useNavigate } from "react-router-dom"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { authState } from "@/states/auth"
+import { blockGateway } from "@/infra/Gateway/BlockGateway"
+import { loadState } from "@/states/load"
 
 export const useBlock = (): IUseBlock => {
    const [block, setBlock] = useState<IBlock>({
-      id: 0,
-      expirationTime: '',
-      name: "",
-      streets: []
+      blockId: 0,
+      blockName: '',
+      territoryId: 0,
+      territoryName: '',
+      addresses: []
    })
    const navigate = useNavigate()
+   const { blockId, territoryId } = useRecoilValue(authState)
+   const [_, _setLoadState] = useRecoilState(loadState)
 
    useEffect(() => {
-      void getBlock()
-   }, [])
+      void getBlock(blockId ?? 0, territoryId ?? 0)
+   }, [blockId, territoryId])
 
-   const getBlock = async (): Promise<void> => {
-      setBlock({
-         id: 1,
-         expirationTime: new Date().toDateString(),
-         name: "Quadra 2",
-         streets: [
-            { id: 1, name: "Rua da Primavera" },
-            { id: 2, name: "Rua da Acacias" },
-         ],
-      })
-      void Promise.resolve()
+   const getBlock = async (block: number, territory: number): Promise<void> => {
+      _setLoadState({ loader: 'spiral', message: 'Buscando quadra' })
+      if (!block || !territory) return
+      const { status, data } = await blockGateway.getBlock(block, territory)
+      if (status > 299) {
+         console.log({ status, data })
+         alert("Erro ao buscar a quadra")
+         return
+      }
+      setBlock(data)
+      _setLoadState({ loader: 'none', message: '' })
    }
 
-   const goToStreet = (streetId: number): Promise<void> => {
-      const exist = block.streets.find((street) => street.id === streetId)
+   const goToStreet = (addressId: number): Promise<void> => {
+      const exist = block.addresses.find((address) => address.id === addressId)
       if (!exist) {
          alert("Rua não encontrada")
          return Promise.resolve()
       }
-      const query = `?s=${streetId}&b=${block.id}`
+      if (!blockId || !territoryId) return Promise.resolve(
+         alert("Erro ao buscar a quadra")
+      )
+      const query = `?a=${addressId}&b=${blockId}&t=${territoryId}`
       navigate(`rua${query}`)
       return Promise.resolve()
    }

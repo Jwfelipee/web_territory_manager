@@ -31,18 +31,17 @@ export const useHome = (): IUseHome => {
          return
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      console.log(data.data)
-      setTerritoryCards(data.data)
+      setTerritoryCards(data)
       _setLoadState({ loader: 'none', message: '' })
    }
 
    const changeRound = async (id: number): Promise<void> => {
-      const territory = territoryCards.find(territory => territory.id === id)
+      const territory = territoryCards.find(territory => territory.territoryId === id)
       if (!territory) {
          alert('Território não encontrado')
          return
       }
-      if (territory.rounds) {
+      if (territory.hasRounds) {
          void await finishRound(id)
       } else {
          void await startRound(id)
@@ -70,16 +69,17 @@ export const useHome = (): IUseHome => {
    const share = async (territoryId: number, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
       e.preventDefault()
       e.stopPropagation()
-      const territory = territoryCards.find(territory => territory.id === territoryId)
+      const territory = territoryCards.find(territory => territory.territoryId === territoryId)
       if (!territory) {
          alert('Território não encontrado')
          return
       }
       const input = {
          overseer: territory.overseer,
-         expirationTime: territory.expirationTime
+         expirationTime: territory.expirationTime,
+         territoryId
       }
-      const { data, status } = await TerritoryGateway.in().signInTerritory(territoryId, input)
+      const { data, status } = await TerritoryGateway.in().signInTerritory(input)
       if (status > 299) {
          alert('Erro ao compartilhar o território')
          return
@@ -98,13 +98,13 @@ export const useHome = (): IUseHome => {
 
    const updateData = (event: React.ChangeEvent<HTMLInputElement>, territoryId: number): void => {
       const { name, value } = event.target
-      const territory = territoryCards.find(territory => territory.id === territoryId)
+      const territory = territoryCards.find(territory => territory.territoryId === territoryId)
       if (!territory) {
          alert('Território não encontrado')
          return
       }
       setTerritoryCards(old => old.map(territory => {
-         if (territory.id === territoryId) {
+         if (territory.territoryId === territoryId) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (territory as any)[name] = value
          }
@@ -113,7 +113,7 @@ export const useHome = (): IUseHome => {
    }
 
    const revoke = async (territoryId: number): Promise<void> => {
-      const territory = territoryCards.find(territory => territory.id === territoryId)
+      const territory = territoryCards.find(territory => territory.territoryId === territoryId)
       if (!territory) {
          alert('Território não encontrado')
          return
@@ -128,7 +128,7 @@ export const useHome = (): IUseHome => {
       void getTerritoryCards()
 
       setTerritoryCards(old => old.map(territory => {
-         if (territory.id === territoryId) {
+         if (territory.territoryId === territoryId) {
             territory.expirationTime = ''
             territory.overseer = ''
          }

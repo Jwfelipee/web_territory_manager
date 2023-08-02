@@ -13,15 +13,15 @@ export function Block() {
           <h1 className="text-xl font-semibold">Olá Publicador(a),</h1>
           <p>Preencha as casas da quadra onde voce falou!</p>
           <hr className="w-1/2 bg-gray-700 h-0.5 my-2" />
-          <h4 className="text-2xl font-bold">{block.name}</h4>
-          <h5 className="text-2xl font-bold">Jd. Magnolia - Quadra 01</h5>
+          <h4 className="text-2xl font-bold">{block.territoryName}</h4>
+          <h5 className="text-2xl font-bold">{block.blockName}</h5>
         </div>
       </Header>
       <Body>
         <div className="h-6 w-full"></div>
         <div className="flex flex-col gap-2">
-          {block.streets?.map((street) => (
-            <Street key={street.id} street={street} actions={actions} />
+          {block.addresses?.map((address) => (
+            <Street key={address.id} address={address} actions={actions} />
           ))}
         </div>
       </Body>

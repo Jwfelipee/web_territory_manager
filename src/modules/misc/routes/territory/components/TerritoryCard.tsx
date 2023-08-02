@@ -11,6 +11,9 @@ interface BlockCardProps {
 }
 
 export function BlockCard({ index, actions, block }: BlockCardProps) {
+  const ALL_HOUSES = block.negativeCompleted + block.positiveCompleted;
+  const AVAILABLE_HOUSES = ALL_HOUSES - block.negativeCompleted;
+
   return (
     <div
       className={clsx(
@@ -23,8 +26,8 @@ export function BlockCard({ index, actions, block }: BlockCardProps) {
       <div className="h-full w-full bg-gray-300 text-white">mapa aqui</div>
       <div className="w-full relative h-fit">
         <div className="flex justify-between w-10/12">
-          <span>total de casas: 100</span>
-          <span>casas disponíveis: 50</span>
+          <span>total de casas: {ALL_HOUSES}</span>
+          <span>casas disponíveis: {AVAILABLE_HOUSES}</span>
         </div>
         <Button
           variant="ghost"

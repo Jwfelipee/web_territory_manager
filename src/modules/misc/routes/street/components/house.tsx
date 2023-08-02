@@ -11,8 +11,8 @@ export function HouseComponent({ house, actions }: HouseProps) {
     <div
       className={clsx(
         {
-          "bg-white": !house.round.completed,
-          "bg-primary": house.round.completed,
+          "bg-white": !house.status,
+          "bg-primary": house.status,
         },
         "shadow-md flex flex-col items-center justify-center p-4 border border-gray-200 cursor-pointer relative rounded-sm transition-all duration-300 hover:shadow-lg"
       )}

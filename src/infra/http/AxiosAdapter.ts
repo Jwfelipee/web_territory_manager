@@ -6,7 +6,7 @@ import axios from 'axios'
 import type HttpClient from './HttpClient'
 import { env } from '@/config/env'
 
-const URL_API = 'https://482e3hikj6.execute-api.us-east-1.amazonaws.com/prod'
+const URL_API = 'https://aa8c-187-180-189-25.ngrok-free.app'
 // const URL_API = 'http://localhost:8001/api'
 
 export default class AxiosAdapter implements HttpClient {
@@ -32,6 +32,11 @@ export default class AxiosAdapter implements HttpClient {
 
   async put(url: string, data: any) {
     const httpConfig = { method: 'put', data }
+    return await this.axiosConfig(url, httpConfig)
+  }
+
+  async patch(url: string, data?: any): Promise<any> {
+    const httpConfig = { method: 'patch', data }
     return await this.axiosConfig(url, httpConfig)
   }
 

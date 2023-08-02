@@ -6,6 +6,9 @@ import { TerritoryGateway } from "@/infra/Gateway/TerritoryGateway";
 import { blockGateway } from "@/infra/Gateway/BlockGateway";
 import { tokenToSend } from "@/utils/token";
 import { navigatorShare } from "@/utils/share";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { authState } from "@/states/auth";
+import { loadState } from "@/states/load";
 
 export const useTerritory = (): IUseTerritory => {
    const [search, setSearch] = useState<ISearch>({
@@ -13,41 +16,29 @@ export const useTerritory = (): IUseTerritory => {
       term: ''
    })
    const [territory, setTerritory] = useState<ITerritory>({
-      id: 0,
-      name: '',
+      territoryId: 0,
+      territoryName: '',
       overseer: '',
-      expirationTime: '',
-      signatureId: 0,
+      hasRound: false,
       blocks: []
    })
+   const { territoryId } = useRecoilValue(authState)
+   const [_, _setLoadState] = useRecoilState(loadState)
 
    useEffect(() => {
-      void getTerritories()
-   }, [])
+      void getTerritories(territoryId)
+   }, [territoryId])
 
-   const getTerritories = async (): Promise<void> => {
-      const { status, data } = await TerritoryGateway.in().getBySignature()
+   const getTerritories = async (id: number): Promise<void> => {
+      _setLoadState({ loader: 'spiral', message: 'Carregando território' })
+      if (!id) return
+      const { status, data } = await TerritoryGateway.in().getById(id)
       if (status > 299) {
          alert('Erro ao buscar os territórios')
-         setTerritory({
-            id: 1,
-            name: 'Território Fake',
-            overseer: 'Fake',
-            expirationTime: new Date().toISOString(),
-            signatureId: 1,
-            blocks: [
-               {
-                  expirationTime: new Date().toISOString(),
-                  id: 1,
-                  name: 'Quadra 1',
-                  signatureId: 1,
-                  territoryId: 1
-               }
-            ]
-         })
          return
       }
-      setTerritory(data?.data)
+      setTerritory(data)
+      _setLoadState({ loader: 'none', message: '' })
    }
 
    const share = async (blockId: number): Promise<void> => {
@@ -56,13 +47,18 @@ export const useTerritory = (): IUseTerritory => {
          alert('Quadra não encontrado')
          return
       }
-      // const { status, data } = await blockGateway.signInBlock(blockId)
-      // if (status > 299) {
-      //    console.log({ data, status })
-      //    alert('Erro ao tentar compartilhar a quadra')
-      //    return
-      // }
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMzc4NmZiLTQ4OTgtNGEzMC1hNDI3LTI1MjFjODMwNzIwMCIsImJsb2NrSWQiOiIyIiwiaWF0IjoxNjkwODQyMzI5LCJleHAiOjE2OTA4NDI5Mjl9.2VTjoEl_gbGgnz6uyNXBSXsPd3yVzXqc2H85qW0nugE'
+      const input = {
+         blockId,
+         territoryId: territory.territoryId
+      }
+      const { status, data } = await blockGateway.signInBlock(input)
+      if (status > 299) {
+         console.log({ data, status })
+         alert('Erro ao tentar compartilhar a quadra')
+         return
+      }
+      console.log(data)
+      const token = data.token
       const tokenToShare = tokenToSend(token)
       await navigatorShare({
          title: 'Prezado(a) publicador(a)',

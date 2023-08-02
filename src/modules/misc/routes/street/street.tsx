@@ -16,12 +16,12 @@ export function StreetData() {
 
   const widthScreen = window.innerWidth;
   const columnsByWidth = () => {
-    if (widthScreen > 800) return 8;
-    if (widthScreen > 700) return 7;
-    if (widthScreen > 600) return 6;
-    if (widthScreen > 500) return 5;
-    if (widthScreen > 400) return 4;
-    if (widthScreen > 300) return 3;
+    if (widthScreen > 800) return 10;
+    if (widthScreen > 700) return 9;
+    if (widthScreen > 600) return 8;
+    if (widthScreen > 500) return 7;
+    if (widthScreen > 400) return 6;
+    if (widthScreen > 300) return 5;
     return 2;
   };
 
@@ -35,7 +35,7 @@ export function StreetData() {
         >
           <ArrowLeft />
         </Button>
-        <h1 className="text-2xl font-bold">{street.name}</h1>
+        <h1 className="text-2xl font-bold">{street.streetName}</h1>
       </Header>
       <Body className="px-6 py-2">
         <h6 className="pt-4 text-xl font-semibold">CASAS</h6>
@@ -49,7 +49,7 @@ export function StreetData() {
             <HouseComponent house={house} actions={actions} key={house.id} />
           ))}
         </div>
-        <Subtitle />
+        {street.houses?.length ? <Subtitle /> : null}
       </Body>
     </div>
   );

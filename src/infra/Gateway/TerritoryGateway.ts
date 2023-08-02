@@ -27,12 +27,12 @@ class TerritoryGatewayHttp {
     return this.http.post(`territories/${id}/round/generate`)
   }
 
-  signInTerritory(id: number, data: { overseer: string; expirationTime: string }): Promise<ResponseHttp> {
-    return this.http.post(`territories/${id}/signature`, data)
+  signInTerritory(data: { overseer: string; expirationTime: string }): Promise<ResponseHttp> {
+    return this.http.post(`signatures/generate`, data)
   }
 
-  getBySignature(): Promise<ResponseHttp> {
-    return this.http.get('territories/signature')
+  getById(territoryId: number): Promise<ResponseHttp> {
+    return this.http.get(`territories/${territoryId}`)
   }
 }
 

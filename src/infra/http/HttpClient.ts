@@ -4,6 +4,7 @@ export default interface HttpClient {
   put(url: string, data?: any): Promise<any>
   postFile(url: string, data?: any): Promise<any>
   delete(url: string): Promise<any>
+  patch(url: string, data?: any): Promise<any>
 }
 
 export interface ResponseHttp {

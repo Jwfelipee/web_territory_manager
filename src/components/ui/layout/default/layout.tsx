@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import clsx from "clsx";
 import { User } from "react-feather";
@@ -7,6 +8,7 @@ import { notify } from "@/utils/alert";
 import { useEffect } from "react";
 import { tokenToReceive } from "@/utils/token";
 import { env } from "@/config/env";
+import jwt_decode from "jwt-decode";
 
 export interface IDefaultLayoutProps {
   haveParams?: boolean;
@@ -34,8 +36,19 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       return;
     }
     const tokenDecoded = tokenToReceive(tokenEncoded);
-    _setAuthState({ token: tokenDecoded });
+    const { overseer, territoryId, blockId, exp } = openToken(tokenDecoded);
+    _setAuthState({
+      token: tokenDecoded,
+      overseer,
+      territoryId,
+      blockId,
+      expirationTime: exp,
+    });
     localStorage.setItem(env.storage.token, tokenDecoded);
+    localStorage.setItem(env.storage.territoryId, territoryId.toString());
+    localStorage.setItem(env.storage.overseer, overseer || "");
+    localStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    localStorage.setItem(env.storage.expirationTime, exp.toString());
   };
 
   const logout = () => {
@@ -44,6 +57,21 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       message: "Você não tem permissão para acessar essa página, faça login",
     });
     navigate("/login");
+  };
+
+  const openToken = (token: string) => {
+    const tokenDecoded = jwt_decode<{
+      overseer?: string;
+      territoryId: number;
+      blockId?: number;
+      exp: number;
+    }>(token);
+    return {
+      overseer: tokenDecoded?.overseer,
+      territoryId: tokenDecoded?.territoryId,
+      blockId: tokenDecoded?.blockId,
+      exp: tokenDecoded?.exp,
+    };
   };
 
   return (

@@ -19,18 +19,18 @@ export function TerritoryCard({
     <div
       className={clsx(
         { "rounded-tl-none bg-transparent border-t-0": index === 0 },
-        "w-[calc(100%+12px)] -ml-2 shadow-lg rounded-l-[40px] rounded-t-[40px] rounded-b-[40px] rounded-tr-none rounded-br-none min-h-[176px] p-4 border",
+        "w-[calc(100%+12px)] -ml-2 shadow-lg rounded-l-[40px] rounded-t-[40px] rounded-b-[40px] rounded-tr-none rounded-br-none min-h-[176px] p-4 px-6 border",
         "flex flex-col gap-2"
       )}
     >
       <div className="w-full h-1/5 flex items-center justify-between">
         <h6>{territoryCard.name}</h6>
         <Button
-          onClick={() => actions.changeRound(territoryCard.id)}
+          onClick={() => actions.changeRound(territoryCard.territoryId)}
           variant="dark"
           className="w-8 h-8 !p-0 !rounded-full"
         >
-          {territoryCard.rounds ? <Pause size={16} /> : <Play size={16} />}
+          {territoryCard.hasRounds ? <Pause size={16} /> : <Play size={16} />}
         </Button>
       </div>
       <div className="h-4/5 w-full flex gap-[16.66%]">
@@ -49,7 +49,9 @@ export function TerritoryCard({
             placeholder="Dirigente"
             value={territoryCard.overseer}
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            onChange={(e: any) => actions.updateData(e, territoryCard.id)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              actions.updateData(e, territoryCard.territoryId)
+            }
           />
           <Input
             name="expirationTime"
@@ -61,11 +63,11 @@ export function TerritoryCard({
                 ? territoryCard.expirationTime.split("T")[0]
                 : territoryCard.expirationTime
             }
-            onChange={(e) => actions.updateData(e, territoryCard.id)}
+            onChange={(e) => actions.updateData(e, territoryCard.territoryId)}
           />
-          {territoryCard.signatureId ? (
+          {territoryCard.signature ? (
             <Button
-              onClick={() => actions.revoke(territoryCard.id)}
+              onClick={() => actions.revoke(territoryCard.territoryId)}
               className="text-xs !px-0 !justify-start"
             >
               Revogar acesso
@@ -80,11 +82,11 @@ export function TerritoryCard({
                       !territoryCard.overseer ||
                       !territoryCard.expirationTime ||
                       territoryCard.overseer === "Dirigente" ||
-                      !territoryCard.rounds,
+                      !territoryCard.hasRounds,
                   },
                   "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl"
                 )}
-                onClick={(e) => actions.share(territoryCard.id, e)}
+                onClick={(e) => actions.share(territoryCard.territoryId, e)}
               >
                 <Share2 />
               </Button>

@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui";
 import clsx from "clsx";
 import { ArrowRight } from "react-feather";
-import { IActions, IStreet } from "../type";
+import { IActions, IAddress } from "../type";
 
-interface StreetProps {
-  street: IStreet;
+interface AddressProps {
+  address: IAddress;
   actions: IActions;
 }
 
-export function Street({ street, actions }: StreetProps) {
+export function Street({ address, actions }: AddressProps) {
+  const FIRST_HOUSE = address?.houses[0];
+  const LAST_HOUSE = address?.houses[address?.houses.length - 1];
   return (
     <div
       className={clsx(
@@ -16,13 +18,15 @@ export function Street({ street, actions }: StreetProps) {
       )}
     >
       <div className={clsx("w-11/12 flex flex-col items-start")}>
-        <h6 className="text-xl font-bold">{street.name}</h6>
-        <p>N* de 15 à 245</p>
+        <h6 className="text-xl font-bold">{address.name}</h6>
+        <p>
+          N° de {FIRST_HOUSE} à {LAST_HOUSE}
+        </p>
       </div>
       <Button
         variant="ghost"
         className={clsx("w-1/12 flex items-center justify-end !shadow-none")}
-        onClick={() => void actions.goToStreet(street.id)}
+        onClick={() => void actions.goToStreet(address.id)}
       >
         <ArrowRight size={24} />
       </Button>

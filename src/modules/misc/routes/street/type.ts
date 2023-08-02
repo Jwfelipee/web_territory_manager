@@ -5,11 +5,13 @@ export type IUseStreet = {
 }
 
 export type IActions = {
-   mark: (id: number) => void
+   mark: (id: number) => Promise<void>
 }
 
 export type Street = {
-   name: string
+   streetName: string
+   territoryName: string
+   blockName: string
    houses: House[]
 }
 
@@ -19,12 +21,5 @@ export type House = {
    complement: string | null
    order: number
    legend: string
-   phone: string
-   typeId: number
-   round: Round
-}
-
-export type Round = {
-   id: number
-   completed: boolean
+   status: boolean
 }

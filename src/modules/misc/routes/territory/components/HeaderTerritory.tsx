@@ -2,16 +2,19 @@ import clsx from "clsx";
 import { ISearch } from "../type";
 import { Search } from "react-feather";
 import { Header, Input } from "@/components/ui";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/states/auth";
 
 interface IHeaderHomeProps {
   search: ISearch;
 }
 
 export function HeaderTerritory({ search }: IHeaderHomeProps) {
+  const { overseer } = useRecoilValue(authState);
   return (
     <Header>
       <div className="flex flex-col justify-evenly h-full">
-        <h1 className="text-xl font-semibold">Olá admin</h1>
+        <h1 className="text-xl font-semibold">Olá {overseer}</h1>
         <p className="text-sm">
           Gerencie aqui os Territórios digitais e compartilhe com os dirigentes
           do campo.

@@ -9,13 +9,17 @@ export type IActions = {
 }
 
 export type IBlock = {
-   id: number
-   name: string
-   expirationTime: string
-   streets: IStreet[]
+   territoryId: number
+   territoryName: string
+   blockId: number
+   blockName: string
+   addresses: IAddress[]
 }
 
-export type IStreet = {
+export type IAddress = {
    id: number
    name: string
+   houses: House[]
 }
+
+export type House = string
