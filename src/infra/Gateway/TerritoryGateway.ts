@@ -16,7 +16,8 @@ class TerritoryGatewayHttp {
   }
 
   revoke(id: number): Promise<ResponseHttp> {
-    return this.http.delete(`territories/${id}/signature`)
+    const query = `?territoryId=${id}`
+    return this.http.delete(`territories/signature${query}`)
   }
 
   finishRound(id: number): Promise<ResponseHttp> {
