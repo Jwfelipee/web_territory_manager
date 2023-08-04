@@ -15,7 +15,7 @@ export function Header({ children, size }: HeaderProps) {
     <>
       <div
         className={clsx(
-          "bg-primary flex w-full rounded-bl-[30%] relative items-center justify-center shadow-md drop-shadow-md px-10 z-10",
+          "bg-secondary flex w-full rounded-bl-[30%] relative items-center justify-center shadow-md drop-shadow-md px-10 z-10",
           size ? sizes[size] : sizes.default
         )}
       >

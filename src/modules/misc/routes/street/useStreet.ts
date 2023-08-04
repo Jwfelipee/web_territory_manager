@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useQuery } from "@/hooks"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { IUseStreet, Street } from "./type"
 import { streetGateway } from "@/infra/Gateway/StreetGateway"
 import { useRecoilState } from "recoil"
@@ -20,12 +20,8 @@ export const useStreet = (): IUseStreet => {
    const addressId = query.get("a")
    const blockId = query.get("b")
    const territoryId = query.get("t")
-
-   useEffect(() => {
-      void getStreet(Number(addressId), Number(blockId), Number(territoryId))
-   }, [addressId, blockId, territoryId])
-
-   const getStreet = async (addressId: number, blockId: number, territoryId: number) => {
+   
+   const getStreet = useCallback(async (addressId: number, blockId: number, territoryId: number) => {
       _setLoadState({ loader: 'spiral', message: 'Buscando rua' })
       if (!addressId || !blockId || !territoryId) return
       const { data, status } = await streetGateway.signInStreet({ addressId, blockId, territoryId })
@@ -35,7 +31,11 @@ export const useStreet = (): IUseStreet => {
       }
       setStreet({ ...data, houses: data?.houses.sort((a, b) => a.id - b.id) })
       _setLoadState({ loader: 'none', message: '' })
-   }
+   }, [_setLoadState])
+
+   useEffect(() => {
+      void getStreet(Number(addressId), Number(blockId), Number(territoryId))
+   }, [addressId, blockId, getStreet, territoryId])
 
    const markRow = async (id: number) => {
       const newStreet = { ...street }

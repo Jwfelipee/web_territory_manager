@@ -6,9 +6,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "@/states/auth";
 import { notify } from "@/utils/alert";
 import { useEffect } from "react";
-import { tokenToReceive } from "@/utils/token";
 import { env } from "@/config/env";
 import jwt_decode from "jwt-decode";
+import { TerritoryGateway } from "@/infra/Gateway/TerritoryGateway";
 
 export interface IDefaultLayoutProps {
   haveParams?: boolean;
@@ -18,37 +18,48 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
   const { token } = useRecoilValue(authState);
   const [_, _setAuthState] = useRecoilState(authState);
   const navigate = useNavigate();
-  const params = useParams<{ accessToken: string }>();
+  const params = useParams<{ signature_id: string }>();
 
   useEffect(() => {
     if (!token) {
       if (haveParams) {
-        saveToken(params?.accessToken);
+        void saveSignature(params?.signature_id);
         return;
       }
       logout();
     }
   }, [token, navigate, params]);
 
-  const saveToken = (tokenEncoded: string | undefined) => {
-    if (!tokenEncoded) {
+  const saveSignature = async (signatureId: string | undefined) => {
+    if (!signatureId) {
       logout();
       return;
     }
-    const tokenDecoded = tokenToReceive(tokenEncoded);
-    const { overseer, territoryId, blockId, exp } = openToken(tokenDecoded);
+    const { data, status } = await TerritoryGateway.in().getSignature(signatureId);
+    if (status > 299) {
+      alert("Erro ao buscar assinatura");
+      // logout();
+      return;
+    }
+    const { token, mode } = data;
+    const { overseer, territoryId, blockId, exp } = openToken(token);
     _setAuthState({
-      token: tokenDecoded,
+      token,
       overseer,
       territoryId,
       blockId,
       expirationTime: exp,
+      signatureId,
+      mode,
     });
-    localStorage.setItem(env.storage.token, tokenDecoded);
+    localStorage.setItem(env.storage.token, token);
     localStorage.setItem(env.storage.territoryId, territoryId.toString());
     localStorage.setItem(env.storage.overseer, overseer || "");
     localStorage.setItem(env.storage.blockId, blockId?.toString() || "");
     localStorage.setItem(env.storage.expirationTime, exp.toString());
+    localStorage.setItem(env.storage.signatureId, signatureId);
+    localStorage.setItem(env.storage.mode, mode);
+
   };
 
   const logout = () => {

@@ -25,10 +25,10 @@ export function Street({ address, actions }: AddressProps) {
       </div>
       <Button.Root
         variant="ghost"
-        className={clsx("w-1/12 flex items-center justify-end !shadow-none")}
+        className={clsx("w-1/12 flex items-center justify-center !shadow-non !p-0 h-8 text-primary font-bold")}
         onClick={() => void actions.goToStreet(address.id)}
       >
-        <ArrowRight size={24} />
+        <Button.Icon icon={ArrowRight} size={24} />
       </Button.Root>
     </div>
   );

@@ -16,24 +16,27 @@ class TerritoryGatewayHttp {
   }
 
   revoke(id: number): Promise<ResponseHttp> {
-    const query = `?territoryId=${id}`
-    return this.http.delete(`territories/signature${query}`)
+    return this.http.delete(`territories/${id}/signature`)
   }
 
   finishRound(id: number): Promise<ResponseHttp> {
-    return this.http.post(`territories/${id}/round/finish`)
+    return this.http.post(`territories/${id}/rounds/finish`)
   }
 
   startRound(id: number): Promise<ResponseHttp> {
-    return this.http.post(`territories/${id}/round/generate`)
+    return this.http.post(`territories/${id}/rounds/start`)
   }
 
-  signInTerritory(data: { overseer: string; expirationTime: string }): Promise<ResponseHttp> {
-    return this.http.post(`signatures/generate`, data)
+  signInTerritory(data: { overseer: string; expirationTime: string }, id: number): Promise<ResponseHttp> {
+    return this.http.post(`territories/${id}/signatures`, data)
   }
 
   getById(territoryId: number): Promise<ResponseHttp> {
     return this.http.get(`territories/${territoryId}`)
+  }
+
+  getSignature(signatureId: string): Promise<ResponseHttp> {
+    return this.http.get(`signature/${signatureId}`)
   }
 }
 

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import clsx from "clsx";
 import { SelectHTMLAttributes } from "react";
 
 export interface ISelect extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -52,13 +53,17 @@ export const InputSelect = ({
         onChange={onChange}
         onBlur={onBlur}
         disabled={disabled}
-        className={`
-					${customHeight ? customHeight : "h-7 xl:h-12"}
-					transition-all ease-in-out duration-300 hover:border-blue-500 focus:border-r-blue-500 focus:outline-none font-normal mt-1 px-2 py-1 border border-slate-400 shadow-sm rounded-md bg-white ${
-            disabled
-              ? "bg-white filter brightness-75 cursor-not-allowed"
-              : " cursor-pointer"
-          } text-sm`}
+        className={clsx(
+          'transition-all ease-in-out duration-300 hover:border-blue-500 focus:border-r-blue-500 focus:outline-none font-normal mt-1 px-2 py-1 shadow-sm rounded-lg text-sm',
+          { 
+            customHeight: customHeight,
+            "h-7 xl:h-12": !customHeight,
+            "bg-white filter brightness-75 cursor-not-allowed": disabled,
+            "cursor-pointer": !disabled,
+            "bg-white": value,
+            "bg-secondary": !value,
+          }
+        )}
         {...rest}
       >
         {list?.length ? (

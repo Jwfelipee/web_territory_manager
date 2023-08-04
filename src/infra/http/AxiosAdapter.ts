@@ -6,7 +6,7 @@ import axios from 'axios'
 import type HttpClient from './HttpClient'
 import { env } from '@/config/env'
 
-const URL_API = 'https://aa8c-187-180-189-25.ngrok-free.app'
+const URL_API = 'https://b32f-187-180-189-25.ngrok-free.app'
 // const URL_API = 'http://localhost:8001/api'
 
 export default class AxiosAdapter implements HttpClient {

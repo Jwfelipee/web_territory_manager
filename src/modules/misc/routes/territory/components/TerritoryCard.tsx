@@ -32,7 +32,8 @@ export function BlockCard({ index, actions, block }: BlockCardProps) {
         <Button.Root
           variant="ghost"
           className={clsx(
-            "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl absolute right-0 -top-1"
+            "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl absolute right-0 -top-1",
+            { hidden: block.signature }
           )}
           onClick={() => actions.share(block.id)}
         >

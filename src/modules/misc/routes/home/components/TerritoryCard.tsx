@@ -63,12 +63,16 @@ export function TerritoryCard({
                 ? territoryCard.expirationTime.split("T")[0]
                 : territoryCard.expirationTime
             }
+            className={clsx(
+              { "bg-secondary": !territoryCard.expirationTime },
+            )}
             onChange={(e) => actions.updateData(e, territoryCard.territoryId)}
           />
           {territoryCard.signature ? (
             <Button.Root
               onClick={() => actions.revoke(territoryCard.territoryId)}
-              className="text-xs !px-0 !justify-start"
+              className="text-xs !px-2 !justify-start"
+              variant="secondary"
             >
               Revogar acesso
             </Button.Root>

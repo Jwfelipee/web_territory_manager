@@ -77,20 +77,18 @@ export const useHome = (): IUseHome => {
       const input = {
          overseer: territory.overseer,
          expirationTime: territory.expirationTime,
-         territoryId
       }
-      const { data, status } = await TerritoryGateway.in().signInTerritory(input)
+      const { data, status } = await TerritoryGateway.in().signInTerritory(input, territoryId)
       if (status > 299) {
          alert('Erro ao compartilhar o território')
          return
       }
-      const { token } = data
+      const { signature } = data
       const origin = window.location.origin
-      const tokenEncoded = tokenToSend(token)
 
       const toShare = {
          title: `Território para trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()}`,
-         url: `${origin}/territorio/${tokenEncoded}`,
+         url: `${origin}/territorio/${signature}`,
          text: `Prezado irmão *_${territory.overseer}_*\nsegue o link para o território *${territory.name}* que você irá trabalhar até ${new Date(territory.expirationTime + ' GMT-3').toLocaleDateString()} \n\n\r`
       }
       await navigatorShare(toShare)

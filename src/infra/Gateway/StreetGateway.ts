@@ -6,14 +6,12 @@ class StreetGateway {
       private readonly httpClient: HttpClient
    ) { }
 
-   signInStreet(data: { addressId: number; territoryId: number, blockId: number }): Promise<ResponseHttp> {
-      const query = `?addressId=${data.addressId}&territoryId=${data.territoryId}&blockId=${data.blockId}`
-      return this.httpClient.get('streets/signature' + query)
+   signInStreet({ addressId, territoryId, blockId }: { addressId: number; territoryId: number, blockId: number }): Promise<ResponseHttp> {
+      return this.httpClient.get(`territories/${territoryId}/blocks/${blockId}/streets/${addressId}`)
    }
 
    markHouse(completed: boolean, houseId: number): Promise<ResponseHttp> {
-      const query = `?houseId=${houseId}`
-      return this.httpClient.patch('streets/signature' + query, { completed })
+      return this.httpClient.patch(`houses/${houseId}`, { completed })
    }
 }
 

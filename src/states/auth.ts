@@ -8,6 +8,8 @@ type AuthState = {
    territoryId: number
    blockId?: number
    expirationTime: number
+   signatureId?: string
+   mode?: string
 }
 
 export const authState = atom<AuthState>({
@@ -18,5 +20,7 @@ export const authState = atom<AuthState>({
       territoryId: Number(localStorage.getItem(env.storage.territoryId)) || 0,
       blockId: Number(localStorage.getItem(env.storage.blockId)) || 0,
       expirationTime: Number(localStorage.getItem(env.storage.expirationTime)) || 0,
+      signatureId: localStorage.getItem(env.storage.signatureId) || '',
+      mode: localStorage.getItem(env.storage.mode) || '',
    },
 });

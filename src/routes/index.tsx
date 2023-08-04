@@ -18,12 +18,12 @@ export const AppRoutes = () => {
       children: [{ path: "", element: <Home /> }],
     },
     {
-      path: "/territorio/:accessToken",
+      path: "/territorio/:signature_id",
       element: <DefaultLayout haveParams />,
       children: [{ path: "", element: <Territory /> }],
     },
     {
-      path: "/quadra/:accessToken",
+      path: "/quadra/:signature_id",
       element: <DefaultLayout haveParams />,
       children: [
         { path: "", element: <Block /> },

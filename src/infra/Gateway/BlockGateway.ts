@@ -7,12 +7,15 @@ class BlockGateway {
    ) { }
 
    signInBlock(data: { blockId: number; territoryId: number }): Promise<ResponseHttp> {
-      return this.httpClient.post(`signatures/generate`, data)
+      return this.httpClient.post(`territories/${data.territoryId}/blocks/${data.blockId}/signature`, {})
    }
 
    getBlock(blockId: number, territoryId: number): Promise<ResponseHttp> {
-      const query = `?blockId=${blockId}&territoryId=${territoryId}`
-      return this.httpClient.get(`blocks/signature${query}`)
+      return this.httpClient.get(`territories/${territoryId}/blocks/${blockId}`)
+   }
+
+   revokeBlock(data: { blockId: number; territoryId: number }): Promise<ResponseHttp> {
+      return this.httpClient.delete(`territories/${data.territoryId}/blocks/${data.blockId}/signature`)
    }
 }
 

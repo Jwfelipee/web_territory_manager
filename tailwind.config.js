@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#D1E07366",
-        secondary: "#D1E073",
+        primary: "#9EE073",
+        secondary: "#CBE6BA",
         negative: "#EE3D3D80",
       },
     },

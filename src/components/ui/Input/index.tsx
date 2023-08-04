@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Dispatch, SetStateAction, useState } from "react";
 import { AlertCircle, Eye, EyeOff as NotEye } from "react-feather";
 
@@ -29,13 +30,13 @@ export const Input: React.FC<IInput> = ({
       )}
       <div className="flex relative text-xs">
         <input
-          className={`
-						border border-slate-400 px-2 py-1 rounded-md w-full transition-all ease-in-out duration-300 hover:border-blue-600 focus:border-blue-600 focus:outline-none
-						${customHeight ? "" : " 2xl:h-12 xl:h-10 lg:h-9"}
-						${errorMessage ? "border-red-500" : ""}
-						${className}
-						${rest.disabled ? "bg-white brightness-75 cursor-not-allowed" : ""}
-						`}
+          className={clsx(
+						'px-2 py-1 rounded-lg w-full transition-all ease-in-out duration-300 hover:border-blue-600 focus:border-blue-600 focus:outline-none',
+						{"2xl:h-12 xl:h-10 lg:h-9": customHeight},
+						{"border-red-500": errorMessage },
+						{"bg-white brightness-75 cursor-not-allowed" : rest.disabled},
+						className
+            )}
           type={currentType}
           ref={rest.ref}
           {...rest}
