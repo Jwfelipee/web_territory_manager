@@ -2,13 +2,13 @@ const storagePrefix = 'tegra_';
 
 const storage = {
   getToken: () => {
-    return JSON.parse(window.localStorage.getItem(`${storagePrefix}token`) as string);
+    return JSON.parse(window.sessionStorage.getItem(`${storagePrefix}token`) as string);
   },
   setToken: (token: string) => {
-    window.localStorage.setItem(`${storagePrefix}token`, JSON.stringify(token));
+    window.sessionStorage.setItem(`${storagePrefix}token`, JSON.stringify(token));
   },
   clearToken: () => {
-    window.localStorage.removeItem(`${storagePrefix}token`);
+    window.sessionStorage.removeItem(`${storagePrefix}token`);
   },
 };
 

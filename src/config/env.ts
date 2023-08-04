@@ -7,5 +7,6 @@ export const env = {
       expirationTime: '@territoryManager/expirationTime',
       signatureId: '@territoryManager/signatureId',
       mode: '@territoryManager/mode',
+      roles: '@territoryManager/roles',
    }
 }

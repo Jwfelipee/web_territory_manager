@@ -12,7 +12,7 @@ export const URL_API = 'https://492a-187-180-189-25.ngrok-free.app'
 export default class AxiosAdapter implements HttpClient {
   constructor() {
     axios.interceptors.request.use((config: any) => {
-      const token = localStorage.getItem(env.storage.token)
+      const token = sessionStorage.getItem(env.storage.token)
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`
       }

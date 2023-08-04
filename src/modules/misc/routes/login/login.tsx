@@ -52,7 +52,7 @@ export default function Login() {
       return;
     }
     _setAuthState({ ...old, token: data.token });
-    localStorage.setItem(env.storage.token, data.token);
+    sessionStorage.setItem(env.storage.token, data.token);
     navigator("/territorios");
     _setLoadState({ loader: "none", message: "" });
   };
@@ -88,7 +88,11 @@ export default function Login() {
               className="!h-12"
             />
           </div>
-          <Button.Root type="submit" variant="secondary" className="w-10/12 flex !flex-row" >
+          <Button.Root
+            type="submit"
+            variant="secondary"
+            className="w-10/12 flex !flex-row"
+          >
             Entrar
           </Button.Root>
         </form>

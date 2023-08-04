@@ -21,6 +21,7 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
   const params = useParams<{ signature_id: string }>();
 
   useEffect(() => {
+    // void saveSignature(params?.signature_id);
     if (!token) {
       if (haveParams) {
         void saveSignature(params?.signature_id);
@@ -44,23 +45,24 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       return;
     }
     const { token, mode } = data;
+    console.log({ token, mode });
     const { overseer, territoryId, blockId, exp } = openToken(token);
-    _setAuthState({
-      token,
-      overseer,
-      territoryId,
-      blockId,
-      expirationTime: exp,
-      signatureId,
-      mode,
-    });
-    localStorage.setItem(env.storage.token, token);
-    localStorage.setItem(env.storage.territoryId, territoryId.toString());
-    localStorage.setItem(env.storage.overseer, overseer || "");
-    localStorage.setItem(env.storage.blockId, blockId?.toString() || "");
-    localStorage.setItem(env.storage.expirationTime, exp.toString());
-    localStorage.setItem(env.storage.signatureId, signatureId);
-    localStorage.setItem(env.storage.mode, mode);
+    // _setAuthState({
+    //   token,
+    //   overseer,
+    //   territoryId,
+    //   blockId,
+    //   expirationTime: exp,
+    //   signatureId,
+    //   mode,
+    // });
+    // sessionStorage.setItem(env.storage.token, token);
+    // sessionStorage.setItem(env.storage.territoryId, territoryId.toString());
+    // sessionStorage.setItem(env.storage.overseer, overseer || "");
+    // sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    // sessionStorage.setItem(env.storage.expirationTime, exp.toString());
+    // sessionStorage.setItem(env.storage.signatureId, signatureId);
+    // sessionStorage.setItem(env.storage.mode, mode);
   };
 
   const logout = () => {
@@ -78,7 +80,7 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       blockId?: number;
       exp: number;
     }>(token);
-    console.log(tokenDecoded);
+    console.log({ tokenDecoded });
     return {
       overseer: tokenDecoded?.overseer,
       territoryId: tokenDecoded?.territoryId,
