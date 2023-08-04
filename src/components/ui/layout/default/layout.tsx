@@ -47,22 +47,22 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
     const { token, mode } = data;
     console.log({ token, mode });
     const { overseer, territoryId, blockId, exp } = openToken(token);
-    // _setAuthState({
-    //   token,
-    //   overseer,
-    //   territoryId,
-    //   blockId,
-    //   expirationTime: exp,
-    //   signatureId,
-    //   mode,
-    // });
-    // sessionStorage.setItem(env.storage.token, token);
-    // sessionStorage.setItem(env.storage.territoryId, territoryId.toString());
-    // sessionStorage.setItem(env.storage.overseer, overseer || "");
-    // sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
-    // sessionStorage.setItem(env.storage.expirationTime, exp.toString());
-    // sessionStorage.setItem(env.storage.signatureId, signatureId);
-    // sessionStorage.setItem(env.storage.mode, mode);
+    _setAuthState({
+      token,
+      overseer,
+      territoryId,
+      blockId,
+      expirationTime: exp,
+      signatureId,
+      mode,
+    });
+    sessionStorage.setItem(env.storage.token, token);
+    sessionStorage.setItem(env.storage.territoryId, territoryId.toString());
+    sessionStorage.setItem(env.storage.overseer, overseer || "");
+    sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    sessionStorage.setItem(env.storage.expirationTime, exp.toString());
+    sessionStorage.setItem(env.storage.signatureId, signatureId);
+    sessionStorage.setItem(env.storage.mode, mode);
   };
 
   const logout = () => {
