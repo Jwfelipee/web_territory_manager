@@ -1,13 +1,22 @@
 import { Body, Button, Header } from "@/components/ui";
 import clsx from "clsx";
 import { useStreet } from "./useStreet";
-import { ArrowLeft } from "react-feather";
+import { ArrowLeft, Users } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { Subtitle } from "./components";
 import { HouseComponent } from "./components/house";
+import { useQuery } from "@/hooks";
 
 export function StreetData() {
-  const { street, actions } = useStreet();
+  const query = useQuery();
+  const addressId = query.get("a");
+  const blockId = query.get("b");
+  const territoryId = query.get("t");
+  const { street, actions, connections } = useStreet(
+    Number(addressId),
+    Number(blockId),
+    Number(territoryId)
+  );
   const navigate = useNavigate();
 
   const back = () => {
@@ -38,7 +47,17 @@ export function StreetData() {
         <h1 className="text-2xl font-bold">{street.streetName}</h1>
       </Header>
       <Body className="px-6 py-2">
-        <h6 className="pt-4 text-xl font-semibold">CASAS</h6>
+        <div className="flex items-end justify-between">
+          <div className="flex items-center h-full">
+            <h6 className="pt-4 text-xl font-semibold">CASAS</h6>
+          </div>
+          {connections ? (
+            <div className="flex items-center justify-center gap-2">
+              {connections}
+              <Users size={20} fill="#9EE073" color="#9EE073" />
+            </div>
+          ) : null}
+        </div>
         <div
           className="grid mt-4"
           style={{

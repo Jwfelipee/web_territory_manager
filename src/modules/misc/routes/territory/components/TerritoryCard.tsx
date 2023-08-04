@@ -3,16 +3,31 @@ import clsx from "clsx";
 import { IActions, IBlock } from "../type";
 import { Button } from "@/components/ui";
 import { Share2 } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 interface BlockCardProps {
   block: IBlock;
   index: number;
   actions: IActions;
+  territoryId: number;
 }
 
-export function BlockCard({ index, actions, block }: BlockCardProps) {
+export function BlockCard({
+  index,
+  actions,
+  block,
+  territoryId,
+}: BlockCardProps) {
+  const navigate = useNavigate();
   const ALL_HOUSES = block.negativeCompleted + block.positiveCompleted;
   const AVAILABLE_HOUSES = block.negativeCompleted;
+
+  const redirect = () => {
+    const query = new URLSearchParams();
+    query.set("b", String(block.id));
+    query.set("t", String(territoryId));
+    navigate(`/quadra?${query.toString()}`);
+  };
 
   return (
     <div
@@ -22,7 +37,9 @@ export function BlockCard({ index, actions, block }: BlockCardProps) {
         "flex flex-col gap-2"
       )}
     >
-      <h6 className="text-lg h-fit">{block.name}</h6>
+      <h6 className="text-lg h-fit" onClick={redirect}>
+        {block.name}
+      </h6>
       <div className="h-full w-full bg-gray-300 text-white">mapa aqui</div>
       <div className="w-full relative h-fit">
         <div className="flex justify-between w-10/12">

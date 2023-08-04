@@ -2,9 +2,22 @@ import { Body, Header } from "@/components/ui";
 import clsx from "clsx";
 import { Street } from "./components";
 import { useBlock } from "./useBlock";
+import { useQuery } from "@/hooks";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/states/auth";
 
 export function Block() {
-  const { block, actions } = useBlock();
+  const query = useQuery();
+  const { blockId: blockIdState, territoryId: territoryIdState } =
+    useRecoilValue(authState);
+  const { b: blockIdQuery, t: territoryIdQuery } = {
+    b: query.get("b"),
+    t: query.get("t"),
+  };
+  const { block, actions } = useBlock(
+    Number(blockIdQuery || blockIdState),
+    Number(territoryIdQuery || territoryIdState)
+  );
 
   return (
     <div className={clsx("relative")}>

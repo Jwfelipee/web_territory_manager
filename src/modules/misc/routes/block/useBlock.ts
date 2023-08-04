@@ -7,7 +7,7 @@ import { authState } from "@/states/auth"
 import { blockGateway } from "@/infra/Gateway/BlockGateway"
 import { loadState } from "@/states/load"
 
-export const useBlock = (): IUseBlock => {
+export const useBlock = (blockId: number, territoryId: number): IUseBlock => {
    const [block, setBlock] = useState<IBlock>({
       blockId: 0,
       blockName: '',
@@ -16,10 +16,10 @@ export const useBlock = (): IUseBlock => {
       addresses: []
    })
    const navigate = useNavigate()
-   const { blockId, territoryId } = useRecoilValue(authState)
    const [_, _setLoadState] = useRecoilState(loadState)
    
    const getBlock = useCallback(async (block: number, territory: number): Promise<void> => {
+      console.log({ block, territory })
       _setLoadState({ loader: 'spiral', message: 'Buscando quadra' })
       if (!block || !territory) return
       const { status, data } = await blockGateway.getBlock(block, territory)

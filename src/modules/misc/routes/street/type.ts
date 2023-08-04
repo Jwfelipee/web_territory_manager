@@ -1,5 +1,6 @@
 
 export type IUseStreet = {
+   connections: number
    street: Street
    actions: IActions
 }
@@ -23,3 +24,9 @@ export type House = {
    legend: string
    status: boolean
 }
+
+export type IMessage = {
+   type: string;
+   data: any
+ }
+ 

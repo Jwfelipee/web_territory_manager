@@ -2,9 +2,17 @@ import clsx from "clsx";
 import { HeaderTerritory, SearchButton, BlockCard } from "./components";
 import { useTerritory } from "./useTerritory";
 import { Body } from "@/components/ui";
+import { useQuery } from "@/hooks";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/states/auth";
 
 export function Territory() {
-  const { search, setSearch, territory, actions } = useTerritory();
+  const query = useQuery();
+  const territoryIdQuery = query.get("t");
+  const { territoryId: territoryIdState } = useRecoilValue(authState);
+  const { search, setSearch, territory, actions } = useTerritory(
+    Number(territoryIdQuery || territoryIdState)
+  );
 
   return (
     <div className={clsx("relative")}>
@@ -21,6 +29,7 @@ export function Territory() {
               block={block}
               index={index}
               actions={actions}
+              territoryId={territory.territoryId}
             />
           ))}
         </div>

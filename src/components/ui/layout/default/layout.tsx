@@ -35,7 +35,9 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       logout();
       return;
     }
-    const { data, status } = await TerritoryGateway.in().getSignature(signatureId);
+    const { data, status } = await TerritoryGateway.in().getSignature(
+      signatureId
+    );
     if (status > 299) {
       alert("Erro ao buscar assinatura");
       // logout();
@@ -59,7 +61,6 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
     localStorage.setItem(env.storage.expirationTime, exp.toString());
     localStorage.setItem(env.storage.signatureId, signatureId);
     localStorage.setItem(env.storage.mode, mode);
-
   };
 
   const logout = () => {
@@ -77,6 +78,7 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       blockId?: number;
       exp: number;
     }>(token);
+    console.log(tokenDecoded);
     return {
       overseer: tokenDecoded?.overseer,
       territoryId: tokenDecoded?.territoryId,

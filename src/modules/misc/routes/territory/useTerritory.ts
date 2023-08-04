@@ -10,7 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "@/states/auth";
 import { loadState } from "@/states/load";
 
-export const useTerritory = (): IUseTerritory => {
+export const useTerritory = (territoryId: number): IUseTerritory => {
    const [search, setSearch] = useState<ISearch>({
       show: false,
       term: ''
@@ -22,7 +22,6 @@ export const useTerritory = (): IUseTerritory => {
       hasRound: false,
       blocks: []
    })
-   const { territoryId } = useRecoilValue(authState)
    const [_, _setLoadState] = useRecoilState(loadState)
    
    const getTerritories = useCallback(async (id: number): Promise<void> => {

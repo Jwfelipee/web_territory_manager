@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { IActions, ITerritoryCard } from "../type";
 import { Button, Input, InputSelect } from "@/components/ui";
 import { Pause, Play, Share2 } from "react-feather";
+import { DoughnutChart } from "@/components/ui/doughnutChart";
+import { useNavigate } from "react-router-dom";
 
 interface TerritoryCardProps {
   territoryCard: ITerritoryCard;
@@ -15,6 +17,14 @@ export function TerritoryCard({
   index,
   actions,
 }: TerritoryCardProps) {
+  const navigate = useNavigate();
+
+  const redirect = () => {
+    const query = new URLSearchParams();
+    query.set("t", String(territoryCard.territoryId));
+    navigate(`/territorio?${query.toString()}`);
+  };
+
   return (
     <div
       className={clsx(
@@ -24,7 +34,7 @@ export function TerritoryCard({
       )}
     >
       <div className="w-full h-1/5 flex items-center justify-between">
-        <h6>{territoryCard.name}</h6>
+        <h6 onClick={redirect}>{territoryCard.name}</h6>
         <Button.Root
           onClick={() => actions.changeRound(territoryCard.territoryId)}
           variant="dark"
@@ -33,11 +43,41 @@ export function TerritoryCard({
           {territoryCard.hasRounds ? <Pause size={16} /> : <Play size={16} />}
         </Button.Root>
       </div>
-      <div className="h-4/5 w-full flex gap-[16.66%]">
-        <div className="w-5/12 flex items-start justify-center">
-          <div className="h-2/3 w-full bg-gray-300 text-white">Grafico</div>
+      <div className="h-4/5 w-full flex gap-[10%]">
+        <div className="w-[45%] flex flex-col items-center justify-start gap-2 text-lg">
+          {territoryCard.hasRounds ? (
+            <>
+              <div
+                className={clsx({
+                  "h-[calc(100%-20px)]": territoryCard?.name,
+                  hidden: !territoryCard?.name,
+                })}
+              >
+                <DoughnutChart
+                  values={[
+                    territoryCard.positiveCompleted,
+                    territoryCard.negativeCompleted,
+                  ]}
+                />
+              </div>
+              <div className="h-4 w-full flex justify-start items-center gap-1 text-xs">
+                <div className="flex items-center w-fit gap-1">
+                  <div className="h-3 w-6 bg-primary"></div>À fazer
+                </div>
+                <div className="flex items-center w-fit gap-1">
+                  <div className="h-3 w-6 bg-secondary"></div>
+                  Concluído
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="h-full w-full flex justify-center items-center">
+              <p className="text-xs text-gray-400">Rodada não iniciada</p>
+            </div>
+          )}
         </div>
-        <div className="w-5/12 flex-col flex justify-between">
+
+        <div className="w-[45%] flex-col flex justify-between">
           <InputSelect
             list={[
               { label: "Dirigente", value: "" },
@@ -63,9 +103,7 @@ export function TerritoryCard({
                 ? territoryCard.expirationTime.split("T")[0]
                 : territoryCard.expirationTime
             }
-            className={clsx(
-              { "bg-secondary": !territoryCard.expirationTime },
-            )}
+            className={clsx({ "bg-secondary": !territoryCard.expirationTime })}
             onChange={(e) => actions.updateData(e, territoryCard.territoryId)}
           />
           {territoryCard.signature ? (

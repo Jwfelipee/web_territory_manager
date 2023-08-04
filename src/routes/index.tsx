@@ -23,7 +23,20 @@ export const AppRoutes = () => {
       children: [{ path: "", element: <Territory /> }],
     },
     {
+      path: "/territorio/",
+      element: <DefaultLayout haveParams />,
+      children: [{ path: "", element: <Territory /> }],
+    },
+    {
       path: "/quadra/:signature_id",
+      element: <DefaultLayout haveParams />,
+      children: [
+        { path: "", element: <Block /> },
+        { path: "rua", element: <StreetData /> },
+      ],
+    },
+    {
+      path: "/quadra",
       element: <DefaultLayout haveParams />,
       children: [
         { path: "", element: <Block /> },
