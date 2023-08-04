@@ -1,10 +1,10 @@
 import { Meta, Story } from '@storybook/react';
 
-import Button, { ButtonProps } from './button';
+import { Button, ButtonProps } from './button';
 
 const meta: Meta = {
   title: 'Components/Elements/Button',
-  component: Button,
+  component: Button.Root,
   parameters: {
     controls: { expanded: true },
   },
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<ButtonProps> = (props: ButtonProps) => <Button {...props} />;
+const Template: Story<ButtonProps> = (props: ButtonProps) => <Button.Root {...props} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

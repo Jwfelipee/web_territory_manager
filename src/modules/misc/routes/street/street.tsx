@@ -28,13 +28,13 @@ export function StreetData() {
   return (
     <div className={clsx("relative")}>
       <Header size="small">
-        <Button
+        <Button.Root
           className="!shadow-none !w-fit !p-2 absolute left-2"
           variant="ghost"
           onClick={back}
         >
           <ArrowLeft />
-        </Button>
+        </Button.Root>
         <h1 className="text-2xl font-bold">{street.streetName}</h1>
       </Header>
       <Body className="px-6 py-2">

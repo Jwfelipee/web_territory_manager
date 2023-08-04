@@ -25,13 +25,13 @@ export function TerritoryCard({
     >
       <div className="w-full h-1/5 flex items-center justify-between">
         <h6>{territoryCard.name}</h6>
-        <Button
+        <Button.Root
           onClick={() => actions.changeRound(territoryCard.territoryId)}
           variant="dark"
           className="w-8 h-8 !p-0 !rounded-full"
         >
           {territoryCard.hasRounds ? <Pause size={16} /> : <Play size={16} />}
-        </Button>
+        </Button.Root>
       </div>
       <div className="h-4/5 w-full flex gap-[16.66%]">
         <div className="w-5/12 flex items-start justify-center">
@@ -66,15 +66,15 @@ export function TerritoryCard({
             onChange={(e) => actions.updateData(e, territoryCard.territoryId)}
           />
           {territoryCard.signature ? (
-            <Button
+            <Button.Root
               onClick={() => actions.revoke(territoryCard.territoryId)}
               className="text-xs !px-0 !justify-start"
             >
               Revogar acesso
-            </Button>
+            </Button.Root>
           ) : (
             <div className="w-full flex justify-end">
-              <Button
+              <Button.Root
                 variant="ghost"
                 className={clsx(
                   {
@@ -89,7 +89,7 @@ export function TerritoryCard({
                 onClick={(e) => actions.share(territoryCard.territoryId, e)}
               >
                 <Share2 />
-              </Button>
+              </Button.Root>
             </div>
           )}
         </div>

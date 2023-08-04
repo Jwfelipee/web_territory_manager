@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 export const SearchButton = ({ setSearch }: { setSearch: ISetSearch }) => {
   return (
-    <Button
+    <Button.Root
       onClick={() => setSearch((prev) => ({ ...prev, show: !prev.show }))}
       className={clsx(
         "fixed bottom-6 -translate-x-1/2 left-1/2 !w-12 !h-12 !p-2 !rounded-full animate-pulse"
@@ -13,6 +13,6 @@ export const SearchButton = ({ setSearch }: { setSearch: ISetSearch }) => {
       variant="secondary"
     >
       <Search size={16} />
-    </Button>
+    </Button.Root>
   );
 };

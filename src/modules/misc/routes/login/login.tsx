@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { Lock } from 'react-feather'
 
 type LoginData = {
   email: string;
@@ -88,9 +89,9 @@ export default function Login() {
               className="!h-12"
             />
           </div>
-          <Button type="submit" variant="secondary" className="w-10/12">
+          <Button.Root type="submit" variant="secondary" className="w-10/12 flex !flex-row border border-red-700" >
             Entrar
-          </Button>
+          </Button.Root>
         </form>
       </Body>
     </div>

@@ -23,13 +23,13 @@ export function Street({ address, actions }: AddressProps) {
           N° de {FIRST_HOUSE} à {LAST_HOUSE}
         </p>
       </div>
-      <Button
+      <Button.Root
         variant="ghost"
         className={clsx("w-1/12 flex items-center justify-end !shadow-none")}
         onClick={() => void actions.goToStreet(address.id)}
       >
         <ArrowRight size={24} />
-      </Button>
+      </Button.Root>
     </div>
   );
 }

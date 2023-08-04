@@ -29,7 +29,7 @@ export function BlockCard({ index, actions, block }: BlockCardProps) {
           <span>total de casas: {ALL_HOUSES}</span>
           <span>casas disponíveis: {AVAILABLE_HOUSES}</span>
         </div>
-        <Button
+        <Button.Root
           variant="ghost"
           className={clsx(
             "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl absolute right-0 -top-1"
@@ -37,7 +37,7 @@ export function BlockCard({ index, actions, block }: BlockCardProps) {
           onClick={() => actions.share(block.id)}
         >
           <Share2 />
-        </Button>
+        </Button.Root>
       </div>
     </div>
   );
