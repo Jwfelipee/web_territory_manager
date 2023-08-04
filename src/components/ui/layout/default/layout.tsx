@@ -21,7 +21,6 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
   const params = useParams<{ signature_id: string }>();
 
   useEffect(() => {
-    // void saveSignature(params?.signature_id);
     if (!token) {
       if (haveParams) {
         void saveSignature(params?.signature_id);
@@ -45,8 +44,7 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       return;
     }
     const { token, mode } = data;
-    console.log({ token, mode });
-    const { overseer, territoryId, blockId, exp } = openToken(token);
+    const { overseer, territoryId, blockId, exp, roles } = openToken(token);
     _setAuthState({
       token,
       overseer,
@@ -55,14 +53,16 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       expirationTime: exp,
       signatureId,
       mode,
+      roles,
     });
     sessionStorage.setItem(env.storage.token, token);
-    sessionStorage.setItem(env.storage.territoryId, territoryId.toString());
+    sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
     sessionStorage.setItem(env.storage.overseer, overseer || "");
     sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
-    sessionStorage.setItem(env.storage.expirationTime, exp.toString());
+    sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
     sessionStorage.setItem(env.storage.signatureId, signatureId);
     sessionStorage.setItem(env.storage.mode, mode);
+    sessionStorage.setItem(env.storage.roles, roles.join(","));
   };
 
   const logout = () => {
@@ -79,13 +79,14 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       territoryId: number;
       blockId?: number;
       exp: number;
+      roles: string[];
     }>(token);
-    console.log({ tokenDecoded });
     return {
       overseer: tokenDecoded?.overseer,
       territoryId: tokenDecoded?.territoryId,
       blockId: tokenDecoded?.blockId,
       exp: tokenDecoded?.exp,
+      roles: tokenDecoded?.roles as any,
     };
   };
 

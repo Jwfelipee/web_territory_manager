@@ -10,10 +10,10 @@ type AuthState = {
    expirationTime: number
    signatureId?: string
    mode?: string
-   roles?: string[]
+   roles?: Partial<Roles>[]
 }
  
-// ['publisher']
+type Roles = 'admin' | 'publisher' | 'overseer'
 
 export const authState = atom<AuthState>({
    key: 'authState',
@@ -25,6 +25,11 @@ export const authState = atom<AuthState>({
       expirationTime: Number(sessionStorage.getItem(env.storage.expirationTime)) || 0,
       signatureId: sessionStorage.getItem(env.storage.signatureId) || '',
       mode: sessionStorage.getItem(env.storage.mode) || '',
-      roles: sessionStorage.getItem(env.storage.roles)?.split(',') || [],
+      roles: (() => {
+         const storage = sessionStorage.getItem(env.storage.roles)
+         if (!storage) return []
+         const roles: Partial<Roles>[] = storage?.includes(',') ? storage.split(',') as any : [storage]
+         return roles
+      })(),
    },
 });

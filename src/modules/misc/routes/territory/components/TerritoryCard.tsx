@@ -4,6 +4,7 @@ import { IActions, IBlock } from "../type";
 import { Button } from "@/components/ui";
 import { Share2 } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import { DoughnutChart } from "@/components/ui/doughnutChart";
 
 interface BlockCardProps {
   block: IBlock;
@@ -40,22 +41,54 @@ export function BlockCard({
       <h6 className="text-lg h-fit" onClick={redirect}>
         {block.name}
       </h6>
-      <div className="h-full w-full bg-gray-300 text-white">mapa aqui</div>
-      <div className="w-full relative h-fit">
-        <div className="flex justify-between w-10/12">
-          <span>total de casas: {ALL_HOUSES}</span>
-          <span>casas disponíveis: {AVAILABLE_HOUSES}</span>
+      <div className="h-4/5 w-full flex gap-[10%]">
+        <div className="w-[45%] flex flex-col items-center justify-start gap-2 text-lg">
+          <div
+            className={clsx(
+              {
+                "h-[calc(100%-20px)]": block?.name,
+                hidden: !block?.name,
+              },
+              "w-full flex justify-start pl-2"
+            )}
+          >
+            <DoughnutChart
+              values={[block.positiveCompleted, block.negativeCompleted]}
+            />
+          </div>
+          <div className="h-4 w-full flex justify-start items-center gap-12 text-xs">
+            <div className="flex flex-col items-center w-fit gap-1">
+              <div className="h-3 w-6 bg-primary"></div>À fazer
+            </div>
+            <div className="flex flex-col items-center w-fit gap-1">
+              <div className="h-3 w-6 bg-secondary"></div>
+              Concluído
+            </div>
+          </div>
         </div>
-        <Button.Root
-          variant="ghost"
-          className={clsx(
-            "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl absolute right-0 -top-1",
-            { hidden: block.signature }
-          )}
-          onClick={() => actions.share(block.id)}
-        >
-          <Share2 />
-        </Button.Root>
+
+        <div className="w-[45%] flex-col flex justify-between">
+          <div className="flex flex-col justify-around items-end w-full h-2/3">
+            <span>total de casas: {ALL_HOUSES}</span>
+            <span>casas disponíveis: {AVAILABLE_HOUSES}</span>
+          </div>
+          <div
+            className={clsx(
+              { invisible: block.signature },
+              "h-1/3 w-full flex items-center"
+            )}
+          >
+            <Button.Root
+              variant="secondary"
+              className={clsx(
+                "text-gray-700 !fill-gray-700 !stroke-gray-700 shadow-xl w-full justify-center"
+              )}
+              onClick={() => actions.share(block.id)}
+            >
+              Enviar <Share2 size={18} />
+            </Button.Root>
+          </div>
+        </div>
       </div>
     </div>
   );

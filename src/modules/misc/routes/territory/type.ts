@@ -1,20 +1,7 @@
 export type IUseTerritory = {
-   search: ISearch
    territory: ITerritory
-   setSearch: ISetSearch
    actions: IActions
 }
-
-export type ISearch = {
-   show: boolean
-   term: string
-}
-
-export type ISetSearch = React.Dispatch<React.SetStateAction<{
-   show: boolean;
-   term: string;
-}>>
-
 
 export type IActions = {
    share: (blockId: number) => Promise<void>

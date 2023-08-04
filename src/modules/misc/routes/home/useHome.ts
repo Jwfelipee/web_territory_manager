@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/require-await */
 import { useEffect, useState } from "react"
-import { IUseHome, ISearch, ITerritoryCard } from "./type"
+import { IUseHome, ITerritoryCard } from "./type"
 import { TerritoryGateway } from "@/infra/Gateway/TerritoryGateway"
 import { tokenToSend } from "@/utils/token"
 import { navigatorShare } from "@/utils/share"
@@ -12,10 +12,7 @@ import { loadState } from "@/states/load"
 
 export const useHome = (): IUseHome => {
    const [_, _setLoadState] = useRecoilState(loadState)
-   const [search, setSearch] = useState<ISearch>({
-      show: false,
-      term: "",
-   })
+   const [search, setSearch] = useState<string>('')
    const [territoryCards, setTerritoryCards] = useState<ITerritoryCard[]>([])
 
    useEffect(() => {
@@ -134,15 +131,31 @@ export const useHome = (): IUseHome => {
       }))
    }
 
+   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setSearch(event.target.value)
+   }
+
+   const submitSearch = async (): Promise<void> => {
+      _setLoadState({ loader: 'spiral', message: 'Buscando territórios' })
+      const { status, data } = await TerritoryGateway.in().get(search)
+      if (status > 299) {
+         alert('Erro ao buscar os territórios')
+         return
+      }
+      setTerritoryCards(data)
+      _setLoadState({ loader: 'none', message: '' })
+   }
+
    return {
       search,
-      setSearch,
       territoryCards,
       actions: {
          changeRound,
          share,
          updateData,
          revoke
-      }
+      },
+      handleChangeSearch,
+      submitSearch: () => void submitSearch(),
    }
 }

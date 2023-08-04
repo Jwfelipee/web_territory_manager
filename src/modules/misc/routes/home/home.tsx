@@ -4,11 +4,16 @@ import { useHome } from "./useHome";
 import { HeaderHome, SearchButton, TerritoryCard } from "./components";
 
 export default function Home() {
-  const { search, territoryCards, setSearch, actions } = useHome();
+  const { search, territoryCards, handleChangeSearch, actions, submitSearch } =
+    useHome();
 
   return (
     <div className={clsx("relative")}>
-      <HeaderHome search={search} />
+      <HeaderHome
+        search={search}
+        handleChangeSearch={handleChangeSearch}
+        submitSearch={submitSearch}
+      />
       <Body>
         <div className="h-full w-full flex flex-col gap-4">
           {territoryCards?.map((territoryCard, index) => (
@@ -21,8 +26,6 @@ export default function Home() {
           ))}
         </div>
       </Body>
-
-      <SearchButton setSearch={setSearch} />
     </div>
   );
 }

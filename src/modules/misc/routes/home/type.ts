@@ -1,19 +1,12 @@
+import { Dispatch, SetStateAction } from "react"
+
 export type IUseHome = {
-   search: ISearch
-   setSearch: ISetSearch
+   search: string
    territoryCards: ITerritoryCard[]
    actions: IActions
+   handleChangeSearch: (event: React.ChangeEvent<HTMLInputElement>) => void
+   submitSearch: () => void
 }
-
-export type ISearch = {
-   show: boolean
-   term: string
-}
-
-export type ISetSearch = React.Dispatch<React.SetStateAction<{
-   show: boolean;
-   term: string;
-}>>
 
 export type ITerritoryCard = {
    territoryId: number

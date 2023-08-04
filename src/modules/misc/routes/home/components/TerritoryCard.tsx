@@ -29,7 +29,7 @@ export function TerritoryCard({
     <div
       className={clsx(
         { "rounded-tl-none bg-transparent border-t-0": index === 0 },
-        "w-[calc(100%+12px)] -ml-2 shadow-lg rounded-l-[40px] rounded-t-[40px] rounded-b-[40px] rounded-tr-none rounded-br-none min-h-[176px] p-4 px-6 border",
+        "w-[calc(100%+12px)] -ml-2 shadow-lg rounded-l-[40px] rounded-t-[40px] rounded-b-[40px] rounded-tr-none rounded-br-none min-h-[220px] p-4 px-6 border",
         "flex flex-col gap-2"
       )}
     >
@@ -45,13 +45,17 @@ export function TerritoryCard({
       </div>
       <div className="h-4/5 w-full flex gap-[10%]">
         <div className="w-[45%] flex flex-col items-center justify-start gap-2 text-lg">
-          {territoryCard.hasRounds ? (
+          {territoryCard.positiveCompleted ||
+          territoryCard.negativeCompleted ? (
             <>
               <div
-                className={clsx({
-                  "h-[calc(100%-20px)]": territoryCard?.name,
-                  hidden: !territoryCard?.name,
-                })}
+                className={clsx(
+                  {
+                    "h-[calc(100%-20px)]": territoryCard?.name,
+                    hidden: !territoryCard?.name,
+                  },
+                  "w-full flex justify-start pl-2"
+                )}
               >
                 <DoughnutChart
                   values={[
@@ -60,11 +64,11 @@ export function TerritoryCard({
                   ]}
                 />
               </div>
-              <div className="h-4 w-full flex justify-start items-center gap-1 text-xs">
-                <div className="flex items-center w-fit gap-1">
+              <div className="h-4 w-full flex justify-start items-center gap-16 text-xs">
+                <div className="flex flex-col items-center w-fit gap-1">
                   <div className="h-3 w-6 bg-primary"></div>À fazer
                 </div>
-                <div className="flex items-center w-fit gap-1">
+                <div className="flex flex-col items-center w-fit gap-1">
                   <div className="h-3 w-6 bg-secondary"></div>
                   Concluído
                 </div>
@@ -72,7 +76,7 @@ export function TerritoryCard({
             </>
           ) : (
             <div className="h-full w-full flex justify-center items-center">
-              <p className="text-xs text-gray-400">Rodada não iniciada</p>
+              <p className="text-xs text-gray-400">Sem dados</p>
             </div>
           )}
         </div>
@@ -117,7 +121,7 @@ export function TerritoryCard({
           ) : (
             <div className="w-full flex justify-end">
               <Button.Root
-                variant="ghost"
+                variant="secondary"
                 className={clsx(
                   {
                     invisible:
@@ -126,11 +130,11 @@ export function TerritoryCard({
                       territoryCard.overseer === "Dirigente" ||
                       !territoryCard.hasRounds,
                   },
-                  "w-8 h-8 !p-0 !rounded-full bg-gray-50 shadow-xl"
+                  "text-xs !px-2 w-full"
                 )}
                 onClick={(e) => actions.share(territoryCard.territoryId, e)}
               >
-                <Share2 />
+                Enviar <Share2 size={16} />
               </Button.Root>
             </div>
           )}

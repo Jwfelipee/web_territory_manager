@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import jwt_decode from "jwt-decode";
 
 type LoginData = {
   email: string;
@@ -51,10 +52,44 @@ export default function Login() {
       });
       return;
     }
-    _setAuthState({ ...old, token: data.token });
+    const { overseer, territoryId, blockId, exp, roles } = openToken(
+      data.token
+    );
+    _setAuthState({
+      token: data.token,
+      overseer,
+      territoryId,
+      blockId,
+      expirationTime: exp,
+      signatureId: "",
+      mode: "default",
+      roles,
+    });
     sessionStorage.setItem(env.storage.token, data.token);
+    sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
+    sessionStorage.setItem(env.storage.overseer, overseer || "");
+    sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
+    sessionStorage.setItem(env.storage.roles, roles.join(","));
     navigator("/territorios");
     _setLoadState({ loader: "none", message: "" });
+  };
+
+  const openToken = (token: string) => {
+    const tokenDecoded = jwt_decode<{
+      overseer?: string;
+      territoryId: number;
+      blockId?: number;
+      exp: number;
+      roles: string[];
+    }>(token);
+    return {
+      overseer: tokenDecoded?.overseer,
+      territoryId: tokenDecoded?.territoryId,
+      blockId: tokenDecoded?.blockId,
+      exp: tokenDecoded?.exp,
+      roles: tokenDecoded?.roles as any,
+    };
   };
 
   return (

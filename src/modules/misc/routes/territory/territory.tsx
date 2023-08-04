@@ -10,13 +10,13 @@ export function Territory() {
   const query = useQuery();
   const territoryIdQuery = query.get("t");
   const { territoryId: territoryIdState } = useRecoilValue(authState);
-  const { search, setSearch, territory, actions } = useTerritory(
+  const { territory, actions } = useTerritory(
     Number(territoryIdQuery || territoryIdState)
   );
 
   return (
     <div className={clsx("relative")}>
-      <HeaderTerritory search={search} />
+      <HeaderTerritory />
       <Body>
         <h2 className="w-full flex flex-col items-center h-10 text-4xl text-center pt-4 pb-8">
           {territory.territoryName}
@@ -34,8 +34,6 @@ export function Territory() {
           ))}
         </div>
       </Body>
-
-      <SearchButton setSearch={setSearch} />
     </div>
   );
 }

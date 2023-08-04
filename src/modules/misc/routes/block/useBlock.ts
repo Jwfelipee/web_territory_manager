@@ -25,6 +25,7 @@ export const useBlock = (blockId: number, territoryId: number): IUseBlock => {
       const { status, data } = await blockGateway.getBlock(block, territory)
       if (status > 299) {
          console.log({ status, data })
+         _setLoadState({ loader: 'none', message: '' })
          alert("Erro ao buscar a quadra")
          return
       }

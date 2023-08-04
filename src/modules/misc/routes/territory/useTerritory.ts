@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useCallback, useEffect, useState } from "react";
-import { ISearch, ITerritory, IUseTerritory } from "./type";
+import { ITerritory, IUseTerritory } from "./type";
 import { TerritoryGateway } from "@/infra/Gateway/TerritoryGateway";
 import { blockGateway } from "@/infra/Gateway/BlockGateway";
 import { tokenToSend } from "@/utils/token";
@@ -11,10 +11,6 @@ import { authState } from "@/states/auth";
 import { loadState } from "@/states/load";
 
 export const useTerritory = (territoryId: number): IUseTerritory => {
-   const [search, setSearch] = useState<ISearch>({
-      show: false,
-      term: ''
-   })
    const [territory, setTerritory] = useState<ITerritory>({
       territoryId: 0,
       territoryName: '',
@@ -30,6 +26,7 @@ export const useTerritory = (territoryId: number): IUseTerritory => {
       const { status, data } = await TerritoryGateway.in().getById(id)
       if (status > 299) {
          alert('Erro ao buscar os territórios')
+         _setLoadState({ loader: 'none', message: '' })
          return
       }
       console.log(data)
@@ -86,11 +83,9 @@ export const useTerritory = (territoryId: number): IUseTerritory => {
    }
 
    return {
-      search,
-      setSearch,
       territory,
       actions: {
          share
-      }
+      },
    }
 }

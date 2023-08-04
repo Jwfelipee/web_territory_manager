@@ -10,8 +10,11 @@ import { ArrowLeft } from "react-feather";
 
 export function Block() {
   const query = useQuery();
-  const { blockId: blockIdState, territoryId: territoryIdState } =
-    useRecoilValue(authState);
+  const {
+    blockId: blockIdState,
+    territoryId: territoryIdState,
+    roles,
+  } = useRecoilValue(authState);
   const { b: blockIdQuery, t: territoryIdQuery } = {
     b: query.get("b"),
     t: query.get("t"),
@@ -28,9 +31,11 @@ export function Block() {
     <div className={clsx("relative")}>
       <Header>
         <div>
-          <h1 className="text-xl font-semibold relative">
+          <h1 className="text-xl font-semibold flex items-center">
             <Button.Root
-              className="!shadow-none !w-fit !p-2 absolute left-2"
+              className={clsx("!shadow-none !w-fit !p-2 left-2", {
+                hidden: !roles?.includes("admin"),
+              })}
               variant="ghost"
               onClick={back}
             >

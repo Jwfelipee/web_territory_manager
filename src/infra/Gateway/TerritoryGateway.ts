@@ -7,8 +7,9 @@ import { HttpMemoryAdapter } from '../http/HttpMemoryAdapter'
 class TerritoryGatewayHttp {
   constructor(private readonly http: HttpClient) { }
 
-  get(): Promise<ResponseHttp> {
-    return this.http.get('territories')
+  get(search?: string): Promise<ResponseHttp> {
+    const query = search ? `?filter=${search}` : ''
+    return this.http.get(`territories${query}`)
   }
 
   update(data: any): Promise<ResponseHttp> {

@@ -31,6 +31,7 @@ export const useStreet = (
       const { data, status } = await streetGateway.signInStreet({ addressId, blockId, territoryId })
       if (status > 299) {
          alert("Erro ao buscar rua")
+         _setLoadState({ loader: 'none', message: '' })
          return
       }
       setStreet({ ...data, houses: data?.houses.sort((a, b) => Number(a.number) - Number(b.number)) })
