@@ -14,48 +14,11 @@ export function Territory() {
     Number(territoryIdQuery || territoryIdState)
   );
 
-  const addressTo = () => {
-    //const [territoryNumber, territoryName] = territory.territoryName.split('-')
-    const territoryName = `Vila Jardini`
-    const street = 'AV GENERAL CARNEIRO'
-    const loc = `${territoryName} ${street}`
-      return loc
-  }
-
-  const toMaps = () => {
-    const loc = addressTo()
-    const encoded = encodeURI(loc)
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encoded}`
-    window.open(mapsUrl, '_target')
-  }
-  
-  const toMapsWithNavigator = () => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        const latitude = position.coords.latitude;
-        const  longitude = position.coords.longitude;
-    
-        // Use latitude e longitude como desejar
-        //alert("Latitude: " + latitude + ", Longitude: " + longitude);
-        const origin = `origin=${latitude},${longitude}`
-        const to = addressTo()
-        const encoded = encodeURI(to)
-
-        const destination = `destination=${encoded}`
-        const urlMaps = `https://www.google.com/maps/dir/?api=1&${origin}&${destination}`
-        //alert(urlMaps)
-        window.open(urlMaps, '_target')
-      });
-    } else {
-      alert('nao suportado')
-    }
-  }
-
   return (
     <div className={clsx("relative")}>
       <HeaderTerritory />
       <Body>
-        <h2 onClick={toMapsWithNavigator} className="w-full flex flex-col items-center h-10 text-4xl text-center pt-4 pb-8">
+        <h2 className="w-full flex flex-col items-center h-10 text-4xl text-center pt-4 pb-8">
           {territory.territoryName}
           <hr className="w-3/5" />
         </h2>
