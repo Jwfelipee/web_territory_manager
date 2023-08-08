@@ -10,6 +10,12 @@ export default {
         secondary: "#CBE6BA",
         negative: "#EE3D3D80",
       },
+      backgroundImage: {
+        'territory-green-1': "url('/public/territory_green_1.jpg')",
+        'territory-green-2': "url('/public/territory_green_2.jpg')",
+        'territory-black-1': "url('/public/territory_black_1.jpg')",
+        'territory-black-2': "url('/public/territory_black_1.jpg')",
+      }
     },
     screens: {
       "2xs": "320px",

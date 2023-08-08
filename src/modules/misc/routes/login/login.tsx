@@ -93,13 +93,13 @@ export default function Login() {
   };
 
   return (
-    <div className={clsx("relative h-full")}>
-      <Header>
-        <h1 className="text-2xl font-semibold">
-          Bem-vindo ao Território Digital!
-        </h1>
-      </Header>
-      <Body>
+    <div className={clsx("relative h-screen")}>
+      <div className="h-2/4 flex items-center justify-center">
+        <div className="w-2/3 rounded-full p-4 overflow-hidden bg-[#7AAD58]">
+          <img src="/public/territory_green_1.jpg" />
+        </div>
+      </div>
+      <Body className="h-[calc(100vh-50%)]">
         <form
           className={clsx("flex flex-col items-center justify-around h-full")}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -107,21 +107,23 @@ export default function Login() {
         >
           <div className="h-1/3 w-10/12 flex flex-col justify-center items-center gap-10">
             <h4>Insira suas informações para realizar o login</h4>
-            <Input
-              onChange={handleChange}
-              value={loginData.email}
-              name="email"
-              label="E-mail"
-              className="!h-12"
-            />
-            <Input
-              onChange={handleChange}
-              value={loginData.password}
-              name="password"
-              label="Senha"
-              type="password"
-              className="!h-12"
-            />
+            <div className="w-full gap-4 flex flex-col">
+              <Input
+                onChange={handleChange}
+                value={loginData.email}
+                name="email"
+                label="E-mail"
+                className="!h-12"
+              />
+              <Input
+                onChange={handleChange}
+                value={loginData.password}
+                name="password"
+                label="Senha"
+                type="password"
+                className="!h-12"
+              />
+            </div>
           </div>
           <Button.Root
             type="submit"
