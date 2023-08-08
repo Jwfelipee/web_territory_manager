@@ -11,6 +11,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import jwt_decode from "jwt-decode";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import image from "@/assets/territory_green_1.jpg";
 
 type LoginData = {
   email: string;
@@ -95,8 +97,8 @@ export default function Login() {
   return (
     <div className={clsx("relative h-screen")}>
       <div className="h-2/4 flex items-center justify-center">
-        <div className="w-2/3 rounded-full p-4 overflow-hidden bg-[#7AAD58]">
-          <img src="/public/territory_green_1.jpg" />
+        <div className="max-w-[66%] rounded-full p-4 overflow-hidden bg-[#7AAD58]">
+          <img src={image} className="w-full" />
         </div>
       </div>
       <Body className="h-[calc(100vh-50%)]">

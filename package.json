@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host=127.0.0.1",
     "build": "tsc && vite build",
-    "prod": "npm run build && cd dist && serve -l 5174",
+    "prod": "cd dist && serve -l 5174",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives",
     "lint:fix": "npm run lint -- --fix",
     "preview": "vite preview",
