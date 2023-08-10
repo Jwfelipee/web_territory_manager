@@ -11,8 +11,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import jwt_decode from "jwt-decode";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import image from "@/assets/territory_green_1.jpg";
+import { sleep } from "@/utils/sleep";
 
 type LoginData = {
   email: string;
@@ -67,12 +67,13 @@ export default function Login() {
       mode: "default",
       roles,
     });
-    sessionStorage.setItem(env.storage.token, data.token);
-    sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
-    sessionStorage.setItem(env.storage.overseer, overseer || "");
-    sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
-    sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
-    sessionStorage.setItem(env.storage.roles, roles.join(","));
+    //sessionStorage.setItem(env.storage.token, data.token);
+    //sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
+    //sessionStorage.setItem(env.storage.overseer, overseer || "");
+    //sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    //sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
+    //sessionStorage.setItem(env.storage.roles, roles.join(","));
+    await sleep(1000);
     navigator("/territorios");
     _setLoadState({ loader: "none", message: "" });
   };

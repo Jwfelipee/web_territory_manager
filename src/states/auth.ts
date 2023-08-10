@@ -26,7 +26,7 @@ export const authState = atom<AuthState>({
       signatureId: sessionStorage.getItem(env.storage.signatureId) || '',
       mode: sessionStorage.getItem(env.storage.mode) || '',
       roles: (() => {
-         const storage = sessionStorage.getItem(env.storage.roles)
+         const storage = sessionStorage.getItem(env.storage.roles) ?? ''
          if (!storage) return []
          const roles: Partial<Roles>[] = storage?.includes(',') ? storage.split(',') as any : [storage]
          return roles
