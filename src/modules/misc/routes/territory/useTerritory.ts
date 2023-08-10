@@ -30,7 +30,14 @@ export const useTerritory = (territoryId: number): IUseTerritory => {
          return
       }
       console.log(data)
-      setTerritory(data)
+      const date = new Date('2023-08-10 22:30:00')
+      setTerritory({ ...data, blocks: data.blocks?.map(block => ({
+         ...block,
+         signature: block.signature ? {
+            id: 'id',
+            expirationDate: date.toISOString()
+         } : null
+      })) })
       _setLoadState({ loader: 'none', message: '' })
    }, [_setLoadState])
 
@@ -44,10 +51,6 @@ export const useTerritory = (territoryId: number): IUseTerritory => {
          alert('Quadra não encontrado')
          return
       }
-      // console.log(exist)
-      // if (exist.signature) {
-      //    await revoke(blockId)
-      // }
 
       const input = {
          blockId,
@@ -67,19 +70,6 @@ export const useTerritory = (territoryId: number): IUseTerritory => {
       })
 
       void getTerritories(territoryId)
-   }
-
-   const revoke = async (blockId: number): Promise<void> => {
-      const input = {
-         blockId,
-         territoryId: territory.territoryId
-      }
-      const { status, data } = await blockGateway.revokeBlock(input)
-      if (status > 299) {
-         console.log({ data, status })
-         alert('Erro ao tentar revogar acesso a quadra')
-         return
-      }
    }
 
    return {

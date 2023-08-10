@@ -55,14 +55,14 @@ export function DefaultLayout({ haveParams = false }: IDefaultLayoutProps) {
       mode,
       roles,
     });
-    //sessionStorage.setItem(env.storage.token, token);
-    //sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
-    //sessionStorage.setItem(env.storage.overseer, overseer || "");
-    //sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
-    //sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
-    //sessionStorage.setItem(env.storage.signatureId, signatureId);
-    //sessionStorage.setItem(env.storage.mode, mode);
-    //sessionStorage.setItem(env.storage.roles, roles.join(","));
+    sessionStorage.setItem(env.storage.token, token);
+    sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
+    sessionStorage.setItem(env.storage.overseer, overseer || "");
+    sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
+    sessionStorage.setItem(env.storage.signatureId, signatureId);
+    sessionStorage.setItem(env.storage.mode, mode);
+    sessionStorage.setItem(env.storage.roles, roles.join(","));
   };
 
   const logout = () => {

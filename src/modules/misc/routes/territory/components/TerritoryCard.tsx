@@ -5,6 +5,7 @@ import { Button } from "@/components/ui";
 import { Share2 } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { DoughnutChart } from "@/components/ui/doughnutChart";
+import { memo, useCallback, useEffect, useState } from "react";
 
 interface BlockCardProps {
   block: IBlock;
@@ -72,24 +73,62 @@ export function BlockCard({
             <span>total de casas: {ALL_HOUSES}</span>
             <span>casas disponíveis: {AVAILABLE_HOUSES}</span>
           </div>
-          <div
-            className={clsx(
-              { invisible: block.signature },
-              "h-1/3 w-full flex items-center"
-            )}
-          >
-            <Button.Root
-              variant="secondary"
-              className={clsx(
-                "text-gray-700 !fill-gray-700 !stroke-gray-700 shadow-xl w-full justify-center"
-              )}
-              onClick={() => actions.share(block.id)}
-            >
-              Enviar <Share2 size={18} />
-            </Button.Root>
-          </div>
+          {block.signature ? (
+            <TimeToExpire signature={block.signature} />
+          ) : (
+            <div className={clsx("h-1/3 w-full flex items-center")}>
+              <Button.Root
+                variant="secondary"
+                className={clsx(
+                  "text-gray-700 !fill-gray-700 !stroke-gray-700 shadow-xl w-full justify-center"
+                )}
+                onClick={() => actions.share(block.id)}
+              >
+                Enviar <Share2 size={18} />
+              </Button.Root>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+const TimeToExpireComponent = ({
+  signature,
+}: {
+  signature: IBlock["signature"];
+}) => {
+  const [expireIn, setExpireIn] = useState<string>("");
+
+  const timeToExpire = useCallback((endDate: string) => {
+    const date = new Date(endDate);
+    if (!endDate) return;
+    const now = new Date();
+    const diff = date.getTime() - now.getTime();
+    const hoursNumber = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutesNumber = Math.floor((diff / 1000 / 60) % 60);
+    const secondsNumber = Math.floor((diff / 1000) % 60);
+    const hours = String(hoursNumber).padStart(2, "0");
+    const minutes = String(minutesNumber).padStart(2, "0");
+    const seconds = String(secondsNumber).padStart(2, "0");
+    setExpireIn(`${hours}:${minutes}:${seconds}`);
+  }, []);
+
+  useEffect(() => {
+    if (!signature) return;
+    const interval = setInterval(() => {
+      timeToExpire(signature?.expirationDate || "");
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [signature, signature?.expirationDate, timeToExpire]);
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <span className="text-xs">Tempo restante:</span>{" "}
+      <span className="text-xs font-semibold">{expireIn}</span>
+    </div>
+  );
+};
+
+const TimeToExpire = memo(TimeToExpireComponent);

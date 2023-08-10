@@ -67,12 +67,12 @@ export default function Login() {
       mode: "default",
       roles,
     });
-    //sessionStorage.setItem(env.storage.token, data.token);
-    //sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
-    //sessionStorage.setItem(env.storage.overseer, overseer || "");
-    //sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
-    //sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
-    //sessionStorage.setItem(env.storage.roles, roles.join(","));
+    sessionStorage.setItem(env.storage.token, data.token);
+    sessionStorage.setItem(env.storage.territoryId, territoryId?.toString());
+    sessionStorage.setItem(env.storage.overseer, overseer || "");
+    sessionStorage.setItem(env.storage.blockId, blockId?.toString() || "");
+    sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
+    sessionStorage.setItem(env.storage.roles, roles.join(","));
     await sleep(1000);
     navigator("/territorios");
     _setLoadState({ loader: "none", message: "" });

@@ -19,7 +19,12 @@ export type ITerritory = {
 export type IBlock = {
    id: number
    name: string
-   signature: boolean
+   signature: ISignature | null
    negativeCompleted: number
    positiveCompleted: number
+}
+
+export type ISignature = {
+   id: string
+   expirationDate: string
 }
