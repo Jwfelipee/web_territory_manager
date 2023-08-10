@@ -29,15 +29,7 @@ export const useTerritory = (territoryId: number): IUseTerritory => {
          _setLoadState({ loader: 'none', message: '' })
          return
       }
-      console.log(data)
-      const date = new Date('2023-08-10 22:30:00')
-      setTerritory({ ...data, blocks: data.blocks?.map(block => ({
-         ...block,
-         signature: block.signature ? {
-            id: 'id',
-            expirationDate: date.toISOString()
-         } : null
-      })) })
+      setTerritory(data)
       _setLoadState({ loader: 'none', message: '' })
    }, [_setLoadState])
 

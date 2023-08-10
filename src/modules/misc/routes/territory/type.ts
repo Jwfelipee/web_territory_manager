@@ -25,6 +25,6 @@ export type IBlock = {
 }
 
 export type ISignature = {
-   id: string
+   key: string
    expirationDate: string
 }
