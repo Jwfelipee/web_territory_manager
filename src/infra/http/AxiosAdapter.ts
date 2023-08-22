@@ -2,10 +2,14 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import axios from 'axios'
-import https from 'https'
-const httpsAgent = new https.Agent({ rejectUnauthorized: false });
+import * as https from 'https'
 import type HttpClient from './HttpClient'
 import { env } from '@/config/env'
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+  requestCert: false,
+});
 
 export const URL_API = 'http://territory-manager.com.br/v1'
 // const URL_API = 'http://localhost:8001/api'
@@ -79,7 +83,9 @@ export default class AxiosAdapter implements HttpClient {
         },
         httpsAgent,
       }
-      const response = await axios(`${URL_API}/${url}`, config)
+      const response = await axios(`${URL_API}/${url}`, {...config, httpsAgent: {
+      
+      }})
       return {
         status: response.status,
         data: response.data,
