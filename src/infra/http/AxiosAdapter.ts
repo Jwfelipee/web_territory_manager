@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 import axios from 'axios'
-
+import https from 'https'
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 import type HttpClient from './HttpClient'
 import { env } from '@/config/env'
 
@@ -77,6 +77,7 @@ export default class AxiosAdapter implements HttpClient {
         headers: {
           'Content-Type': 'application/json',
         },
+        httpsAgent,
       }
       const response = await axios(`${URL_API}/${url}`, config)
       return {
