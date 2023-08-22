@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 import axios from 'axios'
 
 import type HttpClient from './HttpClient'
