@@ -83,9 +83,7 @@ export default class AxiosAdapter implements HttpClient {
         },
         httpsAgent,
       }
-      const response = await axios(`${URL_API}/${url}`, {...config, httpsAgent: {
-      
-      }})
+      const response = await axios(`${URL_API}/${url}`, config)
       return {
         status: response.status,
         data: response.data,
