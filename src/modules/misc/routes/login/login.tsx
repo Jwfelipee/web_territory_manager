@@ -21,7 +21,7 @@ type LoginData = {
 
 export default function Login() {
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "lucas@gmail.com",
+    email: "john@gmail.com",
     password: "123456",
   });
   const navigator = useNavigate();
