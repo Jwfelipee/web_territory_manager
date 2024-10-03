@@ -7,12 +7,11 @@ import { authState } from "@/states/auth";
 import { loadState } from "@/states/load";
 import { notify } from "@/utils/alert";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import jwt_decode from "jwt-decode";
 import { sleep } from "@/utils/sleep";
 import { io } from "socket.io-client";
-import { URL_API } from "@/infra/http/AxiosAdapter";
 
 type LoginData = {
   email: string;
@@ -22,12 +21,14 @@ type LoginData = {
 let render = 0;
 export default function Login() {
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "joaowictor756@gmail.com",
+    email: "wfelipe2011@gmail.com",
     password: "123456",
   });
   const navigator = useNavigate();
   const [old, _setAuthState] = useRecoilState(authState);
   const [__, _setLoadState] = useRecoilState(loadState);
+  const location = useLocation();
+  const search = new URLSearchParams(location.search);
 
   useEffect(() => {
     if (!render) {
@@ -68,7 +69,7 @@ export default function Login() {
       });
       return;
     }
-    _setLoadState({ loader: "spiral", message: "Realizando login" });
+    // _setLoadState({ loader: "spiral", message: "Realizando login" });
 
     const { status, data } = await authGateway.login(loginData);
     if (status > 299) {
@@ -98,8 +99,19 @@ export default function Login() {
     sessionStorage.setItem(env.storage.expirationTime, exp?.toString());
     sessionStorage.setItem(env.storage.roles, roles.join(","));
     await sleep(1000);
-    navigator("/territorios");
-    _setLoadState({ loader: "none", message: "" });
+    /**
+     * @todo
+     * if page is an desktop app, redirect to the app page
+     * else redirect to the mobile app page
+     */
+    // if (window.innerWidth < 768) {
+    const mobileAppUrl = search.get("redirect") || "";
+    const url = `${mobileAppUrl}?token=${data.token as string}`;
+    window.location.href = url;
+    // } else {
+    //   // navigator("/territorios");
+    // }
+    // _setLoadState({ loader: "none", message: "" });
   };
 
   const openToken = (token: string) => {

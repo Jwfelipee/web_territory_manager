@@ -1,12 +1,10 @@
- 
- 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import axios from "axios";
 import type HttpClient from "./HttpClient";
 import { env } from "@/config/env";
 
-export const URL_API = "http://territory-manager.com.br/v1";
-// export const URL_API = "https://3f8b-187-180-188-14.ngrok-free.app/v1";
+// export const URL_API = "http://territory-manager.com.br/v1";
+export const URL_API = "https://api-hmg.territory-manager.com.br/v1";
 
 export default class AxiosAdapter implements HttpClient {
   constructor() {
