@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+ 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import clsx from "clsx";
 import { SelectHTMLAttributes } from "react";

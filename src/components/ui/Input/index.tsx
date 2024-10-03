@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Dispatch, SetStateAction, useState } from "react";
 import { AlertCircle, Eye, EyeOff as NotEye } from "react-feather";
 
-/* eslint-disable */
+ 
 export interface IInput extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   customHeight?: boolean;

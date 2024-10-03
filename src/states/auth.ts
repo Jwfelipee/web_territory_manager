@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+ 
 import { env } from "@/config/env";
 import { atom } from "recoil";
 
