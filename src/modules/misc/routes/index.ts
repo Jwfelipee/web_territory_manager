@@ -1,5 +1,1 @@
-export * from './home'
-export * from './login'
-export * from './territory'
-export * from './block'
-export * from './street'
+export * from "./login";

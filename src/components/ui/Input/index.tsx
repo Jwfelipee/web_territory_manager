@@ -31,12 +31,12 @@ export const Input: React.FC<IInput> = ({
       <div className="flex relative text-xs">
         <input
           className={clsx(
-						'px-2 py-1 rounded-lg w-full transition-all ease-in-out duration-300 hover:border-blue-600 focus:border-blue-600 focus:outline-none',
-						{"2xl:h-12 xl:h-10 lg:h-9": customHeight},
-						{"border-red-500": errorMessage },
-						{"bg-white brightness-75 cursor-not-allowed" : rest.disabled},
-						className
-            )}
+            "px-2 py-1 rounded-lg w-full transition-all ease-in-out duration-300 hover:border-blue-600 focus:border-blue-600 focus:outline-none border",
+            { "2xl:h-12 xl:h-10 lg:h-9": customHeight },
+            { "border-red-500": errorMessage },
+            { "bg-white brightness-75 cursor-not-allowed": rest.disabled },
+            className
+          )}
           type={currentType}
           ref={rest.ref}
           {...rest}

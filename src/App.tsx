@@ -4,6 +4,8 @@ import { RecoilRoot, useRecoilValue } from "recoil";
 import { loadState } from "./states/load";
 import { BookLoader, ScienceLoader, SpiralLoader } from "./components/ui";
 import clsx from "clsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -24,6 +26,7 @@ const AppWithLoader = () => {
 
   return (
     <>
+      <ToastContainer />
       {showLoader && (
         <>
           <Component message={message} />

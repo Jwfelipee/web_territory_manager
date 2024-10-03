@@ -1,41 +1,65 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Body, Button, Header } from "@/components/ui";
+import { AuthLayout, Body, Button, Header } from "@/components/ui";
 import { Input } from "@/components/ui/Input";
 import { env } from "@/config/env";
 import { authGateway } from "@/infra/Gateway/AuthGateway";
 import { authState } from "@/states/auth";
 import { loadState } from "@/states/load";
 import { notify } from "@/utils/alert";
-import clsx from "clsx";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import jwt_decode from "jwt-decode";
-import image from "@/assets/territory_green_1.jpg";
 import { sleep } from "@/utils/sleep";
+import { io } from "socket.io-client";
+import { URL_API } from "@/infra/http/AxiosAdapter";
 
 type LoginData = {
   email: string;
   password: string;
 };
 
+let render = 0;
 export default function Login() {
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "john@gmail.com",
+    email: "joaowictor756@gmail.com",
     password: "123456",
   });
   const navigator = useNavigate();
   const [old, _setAuthState] = useRecoilState(authState);
   const [__, _setLoadState] = useRecoilState(loadState);
 
+  useEffect(() => {
+    if (!render) {
+      render++;
+      return;
+    }
+    const socket = io("", {
+      transports: ["websocket"],
+      auth: {
+        token: sessionStorage.getItem(env.storage.token) || "",
+      },
+    });
+
+    socket.on("connect", () => {
+      console.log("socket connected");
+    });
+
+    socket.on("uploadProgress", (data: any) => {
+      console.log("by socket", data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!loginData.email || !loginData.password) {
       notify({
@@ -96,47 +120,56 @@ export default function Login() {
   };
 
   return (
-    <div className={clsx("relative h-screen")}>
-      <div className="h-2/4 flex items-center justify-center">
-        <div className="max-w-[66%] rounded-full p-4 overflow-hidden bg-[#7AAD58]">
-          <img src={image} className="w-full" />
-        </div>
-      </div>
-      <Body className="h-[calc(100vh-50%)]">
-        <form
-          className={clsx("flex flex-col items-center justify-around h-full")}
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={handleSubmit}
-        >
-          <div className="h-1/3 w-10/12 flex flex-col justify-center items-center gap-10">
-            <h4>Insira suas informações para realizar o login</h4>
-            <div className="w-full gap-4 flex flex-col">
-              <Input
-                onChange={handleChange}
-                value={loginData.email}
-                name="email"
-                label="E-mail"
-                className="!h-12"
-              />
-              <Input
-                onChange={handleChange}
-                value={loginData.password}
-                name="password"
-                label="Senha"
-                type="password"
-                className="!h-12"
-              />
-            </div>
+    <AuthLayout onSubmit={handleSubmit}>
+      <div className="h-full flex flex-col gap-8 p-4 md:w-1/2 md:justify-center">
+        <div className="md:h-40 h-4/5 flex flex-col justify-evenly items-center">
+          <h1 className="font-bold text-xl text-gray-800 md:hidden">
+            Insira suas informações para realizar o login
+          </h1>
+          <div className="md:w-80 w-full justify-around flex flex-col items-center gap-4">
+            <Input
+              value={loginData.email}
+              onChange={handleChange}
+              className="!h-12"
+              name="email"
+              label="E-mail"
+              placeholder="Digite seu e-mail"
+              autoFocus
+              type="text"
+            />
+            <Input
+              value={loginData.password}
+              onChange={handleChange}
+              className="!h-12"
+              name="password"
+              label="Senha"
+              placeholder="Digite sua senha"
+              type="password"
+              minLength={6}
+            />
           </div>
+        </div>
+        <div className="h-1/5 min-h-[40px] flex flex-col justify-center items-center gap-4">
           <Button.Root
+            placeholder={"Entrar ou Login"}
             type="submit"
-            variant="secondary"
-            className="w-10/12 flex !flex-row"
+            className="
+            md:w-64 w-40 h-[60px] p-7 
+            flex justify-center items-center rounded-2xl 
+            focus:opacity-65
+            "
+            size="lg"
           >
             Entrar
           </Button.Root>
-        </form>
-      </Body>
-    </div>
+          <Link
+            to="/confirmar-email"
+            className="text-gray-700 md:text-base text-sm hover:underline"
+          >
+            Esqueceu a senha?
+          </Link>
+        </div>
+      </div>
+    </AuthLayout>
   );
 }

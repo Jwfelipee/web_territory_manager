@@ -1,5 +1,4 @@
-import { DefaultLayout } from "@/components/ui";
-import { Block, Home, Login, StreetData, Territory } from "@/modules/misc";
+import { ConfirmEmail, Login } from "@/modules/misc";
 import { useRoutes, RouteObject } from "react-router-dom";
 
 export const AppRoutes = () => {
@@ -13,35 +12,8 @@ export const AppRoutes = () => {
       element: <Login />,
     },
     {
-      path: "/territorios",
-      element: <DefaultLayout />,
-      children: [{ path: "", element: <Home /> }],
-    },
-    {
-      path: "/territorio/:signature_id",
-      element: <DefaultLayout haveParams />,
-      children: [{ path: "", element: <Territory /> }],
-    },
-    {
-      path: "/territorio/",
-      element: <DefaultLayout haveParams />,
-      children: [{ path: "", element: <Territory /> }],
-    },
-    {
-      path: "/quadra/:signature_id",
-      element: <DefaultLayout haveParams />,
-      children: [
-        { path: "", element: <Block /> },
-        { path: "rua", element: <StreetData /> },
-      ],
-    },
-    {
-      path: "/quadra",
-      element: <DefaultLayout haveParams />,
-      children: [
-        { path: "", element: <Block /> },
-        { path: "rua", element: <StreetData /> },
-      ],
+      path: "/confirmar-email",
+      element: <ConfirmEmail />,
     },
   ];
   const element = useRoutes([...commonRoutes]);

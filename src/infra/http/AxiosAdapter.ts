@@ -1,76 +1,70 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+ 
+ 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import axios from 'axios'
-import * as https from 'https'
-import type HttpClient from './HttpClient'
-import { env } from '@/config/env'
+import axios from "axios";
+import type HttpClient from "./HttpClient";
+import { env } from "@/config/env";
 
-const httpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-  requestCert: false,
-});
-
-export const URL_API = 'http://territory-manager.com.br/v1'
-// const URL_API = 'http://localhost:8001/api'
+export const URL_API = "http://territory-manager.com.br/v1";
+// export const URL_API = "https://3f8b-187-180-188-14.ngrok-free.app/v1";
 
 export default class AxiosAdapter implements HttpClient {
   constructor() {
     axios.interceptors.request.use((config: any) => {
-      const token = sessionStorage.getItem(env.storage.token) ?? ''
+      const token = sessionStorage.getItem(env.storage.token) ?? "";
       if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`
+        config.headers["Authorization"] = `Bearer ${token}`;
       }
-      return config
-    })
+      return config;
+    });
   }
 
   async get(url: string) {
-    const httpConfig = { method: 'get' }
-    return await this.axiosConfig(url, httpConfig)
+    const httpConfig = { method: "get" };
+    return await this.axiosConfig(url, httpConfig);
   }
 
   async post(url: string, data: any) {
-    const httpConfig = { method: 'post', data }
-    return await this.axiosConfig(url, httpConfig)
+    const httpConfig = { method: "post", data };
+    return await this.axiosConfig(url, httpConfig);
   }
 
   async put(url: string, data: any) {
-    const httpConfig = { method: 'put', data }
-    return await this.axiosConfig(url, httpConfig)
+    const httpConfig = { method: "put", data };
+    return await this.axiosConfig(url, httpConfig);
   }
 
   async patch(url: string, data?: any): Promise<any> {
-    const httpConfig = { method: 'patch', data }
-    return await this.axiosConfig(url, httpConfig)
+    const httpConfig = { method: "patch", data };
+    return await this.axiosConfig(url, httpConfig);
   }
 
   async postFile(url: string, data: any) {
-    const httpConfig = { method: 'post', data }
-    return await this.axiosConfigFileUpload(url, httpConfig)
+    const httpConfig = { method: "post", data };
+    return await this.axiosConfigFileUpload(url, httpConfig);
   }
 
   async delete(url: string) {
-    const httpConfig = { method: 'delete' }
-    return await this.axiosConfig(url, httpConfig)
+    const httpConfig = { method: "delete" };
+    return await this.axiosConfig(url, httpConfig);
   }
 
   private async axiosConfig(url: string, httpConfig: any) {
     try {
       const config = {
         ...httpConfig,
-      }
+      };
 
-      const response = await axios(`${URL_API}/${url}`, config)
+      const response = await axios(`${URL_API}/${url}`, config);
       return {
         status: response.status,
         data: response.data,
-      }
+      };
     } catch (error: any) {
       return {
         status: error.response.status,
         message: error.response.data.error,
-      }
+      };
     }
   }
 
@@ -79,20 +73,23 @@ export default class AxiosAdapter implements HttpClient {
       const config = {
         ...httpConfig,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        httpsAgent,
-      }
-      const response = await axios(`${URL_API}/${url}`, config)
+      };
+      const response = await axios(`${URL_API}/${url}`, config);
       return {
         status: response.status,
         data: response.data,
-      }
+      };
     } catch (error: any) {
       return {
         status: error.response.status,
         message: error.response.data.error,
-      }
+      };
     }
+  }
+
+  setToken(token: string) {
+    sessionStorage.setItem(env.storage.token, token);
   }
 }
